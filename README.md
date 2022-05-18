@@ -1,4 +1,4 @@
-#*STEPs B2B Marketplace*
+#STEPs B2B Marketplace
 ## B2B Marketplace for  Sustainable Tourism Experiences and Products (STEPs)
 
 Vacation packages proposed by large travel agents and tour operators usually include flights, accommodation, and rent-a-car or bus tour services. Meanwhile, many micro and small tourism operators offering sustainable tourism experiences or products (STEPs) usually only explore B2C channels, or even no digital channel at all, due to their lack of resources. The proposed B2B marketplace aims to promote the approximation between the large operators and sustainable SMEs, to build innovative packages, where the former incorporate STEPs offered by the latter. This platform is therefore expected to increase competitiveness and provide access to new business opportunities and new markets, especially for micro and small tourism operators offering STEPs, by taking advantage of opportunities provided by digital markets.
