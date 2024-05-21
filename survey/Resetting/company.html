@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resetting RDL</title>    
+    <script src="/scripts/scriptPaginas.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form method="post" action="company.php">
+        
+        <div class="border" id="company_description">
+            <header>
+                <h1>Resetting RDL</h1><br>
+            </header>
+            <input type="hidden" id="CompanyID" name="CompanyID">
+            <h2>Company Name</h2>
+            <textarea id="CompanyName" name="CompanyName" rows="1" cols="50"></textarea><br> 
+            <h2>Company Description</h2>
+            <label for="company_description">Please provide a brief description of the organization’s business and offer:</label><br><br>
+            <textarea id="CompanyDescription" name="CompanyDescription" rows="3" cols="50"></textarea><br><br>
+            <h2>Reference Year</h2>
+            <label for="reference_year">Please select the reference year for the data collected:</label><br><br>
+            <select id="ReferenceYear" name="ReferenceYear">
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+            </select><br><br>
+            <h2>Tourism Products Offered</h2>
+            <button type="button" class="styled-button" onclick="addProduct()">Add Product</button>
+            <div id="products"></div><br><br>
+            <button class="progress'buttom" id="increase-progress" type="button"  onclick="toggleVisibility1()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="progress-text"> Página 1 de 15</div>
+            </div>
+            
+            
+            <script>
+                function setProgress(percentage) {
+                    const progressBar = document.getElementById('progress-bar');
+                    progressBar.style.width = percentage + '%';
+                }
+                setProgress(5); 
+            </script>
+            <script src="/scripts/companyDesc.js"></script>
+        </div>
+        
+        <div class="border" id="work_characterization">
+            <h2>Work force characterization</h2>
+            <label for="TotalEmployees">Total number of employees: </label><br>
+            <input type="number" id="TotalEmployees" name="TotalEmployees"><br><br>
+            <div class="slider-container">
+                <label for="PercentageFemaleEmployees">Percentage of female employees: </label>
+                <input type="range" id="PercentageFemaleEmployees" name="PercentageFemaleEmployees" min="0" max="100">
+                <span class="slider-value" id="PercentageFemaleEmployeesValue">50%</span>
+            </div>
+            <br>
+            <div class="slider-container">
+                <label for="PercentageMaleEmployees">Percentage of male employees: </label>
+                <input type="range" id="PercentageMaleEmployees" name="PercentageMaleEmployees" min="0" max="100">
+                <span class="slider-value" id="PercentageMaleEmployeesValue">50%</span>
+            </div>
+            <br>
+            <label for="FemaleAverageSalary">Average salary of female employees: </label><br>
+            <input type="number" id="FemaleAverageSalary" name="FemaleAverageSalary"><br><br>
+            <label for="MaleAverageSalary">Average salary of male employees: </label><br>
+            <input type="number" id="MaleAverageSalary" name="MaleAverageSalary"><br><br>
+            <label for="FemaleHighestSalary">Highest salary of female employees: </label><br>
+            <input type="number" id="FemaleHighestSalary" name="FemaleHighestSalary"><br><br>
+            <label for="MaleHighestSalary">Highest salary of male employees: </label><br>
+            <input type="number" id="MaleHighestSalary" name="MaleHighestSalary"><br><br>
+            <label for="FemaleHighestSalaryDuties">Duties performed by the female employee with the highest salary: </label><br>
+            <textarea id="FemaleHighestSalaryDuties" name="FemaleHighestSalaryDuties" rows="3" cols="50"></textarea><br><br>
+            <label for="MaleHighestSalaryDuties">Duties performed by the male employee with the highest salary: </label><br>
+            <textarea id="MaleHighestSalaryDuties" name="MaleHighestSalaryDuties" rows="3" cols="50"></textarea><br><br> 
+            
+            <button type="button" onclick="toggleVisibility1()">Back</button>
+            <button type="button" onclick="toggleVisibility2()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar2"></div>
+                </div>
+                <div class="progress-text"> Página 2 de 15</div>
+            </div>
+                
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar2');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(10);
+                </script>
+            <script src="/scripts/workForce.js"></script>
+        </div>
+        <div class="border" id="work_characterization2">
+            <label for="FemaleLowestSalary">Lowest salary of female employees: </label><br>
+            <input type="number" id="FemaleLowestSalary" name="FemaleLowestSalary"><br><br>
+    
+            <label for="MaleLowestSalary">Lowest salary of male employees: </label><br>
+            <input type="number" id="MaleLowestSalary" name="MaleLowestSalary"><br><br>
+            <label for="FemaleLowestSalaryDuties">Duties performed by the female employee with the lowest salary: </label><br>
+            <textarea id="FemaleLowestSalaryDuties" name="FemaleLowestSalaryDuties" rows="2" cols="50"></textarea><br><br>
+    
+            <label for="MaleLowestSalaryDuties">Duties performed by the male employee with the lowest salary: </label><br>
+            <textarea id="MaleLowestSalaryDuties" name="MaleLowestSalaryDuties" rows="2" cols="50"></textarea><br><br>
+        
+            <div class="slider-container">
+                <label for="PercentageForeignEmployees">Percentage of foreign employees: </label>
+                <input type="range" id="PercentageForeignEmployees" name="PercentageForeignEmployees" min="0" max="100">
+                <span class="slider-value" id="PercentageForeignEmployeesValue">50%</span>
+            </div>
+            <br>
+            <div class="slider-container">
+                <label for="NationalForeignEmployees">Percentege of national employees: </label>
+                <input type="range" id="NationalForeignEmployees" name="NationalForeignEmployees" min="0" max="100">
+                <span class="slider-value" id="NationalForeignEmployeesValues">50%</span>
+            </div>
+            <br>
+
+            <button type="button" onclick="toggleVisibility2()">Back</button>
+            <button type="button" onclick="toggleVisibility3()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar3"></div>
+                </div>
+                <div class="progress-text"> Página 3 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar3');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(15); 
+                </script>
+            <script src="/scripts/workForce.js"></script>
+        </div>
+        <div class="border" id="work_characterization3">
+            <label for="ForeignAverageSalary">Average salary of foreign employees: </label><br>
+            <input type="number" id="ForeignAverageSalary" name="ForeignAverageSalary"><br><br>
+        
+            <label for="NationalAverageSalary">Average salary of national employees: </label><br>
+            <input type="number" id="NationalAverageSalary" name="NationalAverageSalary"><br><br>
+        
+            <label for="ForeignHighestSalary">Highest salary of foreign employees: </label><br>
+            <input type="number" id="ForeignHighestSalary" name="ForeignHighestSalary"><br><br>
+        
+            <label for="NationalHighestSalary">Highest salary of national employees: </label><br>
+            <input type="number" id="NationalHighestSalary" name="NationalHighestSalary"><br><br>
+        
+            <label for="ForeignHighestSalaryDuties">Duties performed by the foreign employee with the highest salary: </label><br>
+            <textarea id="ForeignHighestSalaryDuties" name="ForeignHighestSalaryDuties" rows="2" cols="50"></textarea><br>
+        
+            <label for="NationalHighestSalaryDuties">Duties performed by the national employee with the highest salary: </label><br>
+            <textarea id="NationalHighestSalaryDuties" name="NationalHighestSalaryDuties" rows="2" cols="50"></textarea><br><br>
+        
+            <label for="ForeignLowestSalary">Lowest salary of foreign employees: </label><br>
+            <input type="number" id="ForeignLowestSalary" name="ForeignLowestSalary"><br><br>
+        
+            <label for="NationalLowestSalary">Lowest salary of national employees: </label><br>
+            <input type="number" id="NationalLowestSalary" name="NationalLowestSalary"><br><br>
+        
+            <label for="ForeignLowestSalaryDuties">Duties performed by the foreign employee with the lowest salary: </label><br>
+            <textarea id="ForeignLowestSalaryDuties" name="ForeignLowestSalaryDuties" rows="2" cols="50"></textarea><br>
+        
+            <label for="NationalLowestSalaryDuties">Duties performed by the national employee with the lowest salary: </label><br>
+            <textarea id="NationalLowestSalaryDuties" name="NationalLowestSalaryDuties" rows="2" cols="50"></textarea><br><br>
+    
+            <button type="button" onclick="toggleVisibility3()">Back</button>
+            <button type="button" onclick="toggleVisibility4()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar4"></div>
+                </div>
+                <div class="progress-text"> Página 4 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar4');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(20); 
+                </script>
+            <script src="/scripts/workForce.js"></script>
+        </div>
+        <div class="border" id="work_characterization4">
+            <label for="AverageWeeklyHoursWorkEmployee">Average weekly hours of work per employee: </label><br>
+            <input type="number" id="AverageWeeklyHoursWorkEmployee" name="AverageWeeklyHoursWorkEmployee"><br><br>
+    
+            <label for="FemaleAverageWeeklyHoursWork">Average weekly hours of work per female employee: </label><br>
+            <input type="number" id="FemaleAverageWeeklyHoursWork" name="FemaleAverageWeeklyHoursWork"><br><br>
+    
+            <label for="MaleAverageWeeklyHoursWork">Average weekly hours of work per male employee: </label><br>
+            <input type="number" id="MaleAverageWeeklyHoursWork" name="MaleAverageWeeklyHoursWork"><br><br>
+    
+            <label for="ForeignAverageWeeklyHoursWork">Average weekly hours of work per foreign employee: </label><br>
+            <input type="number" id="ForeignAverageWeeklyHoursWork" name="ForeignAverageWeeklyHoursWork"><br><br>
+    
+            <label for="NationalAverageWeeklyHoursWork">Average weekly hours of work per national employee: </label><br>
+            <input type="number" id="NationalAverageWeeklyHoursWork" name="NationalAverageWeeklyHoursWork"><br><br>
+    
+            <button type="button" onclick="toggleVisibility4()">Back</button>
+            <button type="button" onclick="toggleVisibility5()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar5"></div>
+                </div>
+                <div class="progress-text"> Página 5 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar5');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(25); 
+                </script>
+            <script src="/scripts/workForce.js"></script>
+        </div>
+        <div class="border" id="work_characterization5">
+
+            <label for="HealthcareSystemProvider">Does your organization provide health care system to the employees? </label><br>
+            <input type="checkbox" id="HealthcareSystemProvider" name="HealthcareSystemProvider"><br><br>
+    
+            <div id="HealthcareSystemDetails" style="display: none;">
+                <div class="slider-container">
+                    <label for="HealthcareSystemPercentageEmployees">Percentage of employees covered by the health care system: </label>
+                    <input type="range" id="HealthcareSystemPercentageEmployees" name="HealthcareSystemPercentageEmployees" min="0" max="100">
+                    <span class="slider-value" id="HealthcareSystemPercentageEmployeesValue">50%</span>
+                </div>
+                <br>
+                <label for="HealthcareSystemDescription">What is covered in the health care system? </label><br>
+                <textarea id="HealthcareSystemDescription" name="HealthcareSystemDescription" rows="2" cols="50"></textarea><br><br>
+        
+                <label for="HealthcareSystemName">Name the health care system, and the provider: </label><br>
+                <textarea id="HealthcareSystemName" name="HealthcareSystemName" rows="2" cols="50"></textarea><br><br>
+            </div>
+        
+            <label for="EducationProfile">Workforce Education Profile: </label><br>
+            <div class="slider-container">
+                <label for="PercentageEducationNone">No formal education: </label>
+                <input type="range" id="PercentageEducationNone" name="PercentageEducationNone" min="0" max="100">
+                <span class="slider-value" id="PercentageEducationNoneValue">50%</span>
+            </div>
+            <br>
+        
+            <div class="slider-container">
+                <label for="PercentageEducationPrimary">Primary education:</label>
+                <input type="range" id="PercentageEducationPrimary" name="PercentageEducationPrimary" min="0" max="100">
+                <span class="slider-value" id="PercentageEducationPrimaryValue">50%</span>
+            </div>
+            <br>
+        
+            <div class="slider-container">
+                <label for="PercentageEducationSecondary">Secondary education:</label>
+                <input type="range" id="PercentageEducationSecondary" name="PercentageEducationSecondary" min="0" max="100">
+                <span class="slider-value" id="PercentageEducationSecondary">50%</span>
+            </div>
+            <br>
+        
+            <div class="slider-container">
+                <label for="PercentageEducationVocational">Vocational training:</label>
+                <input type="range" id="PercentageEducationVocational" name="PercentageEducationVocational" min="0" max="100">
+                <span class="slider-value" id="PercentageEducationVocationalValue">50%</span>
+            </div>
+            <br>
+        
+            <div class="slider-container">
+                <label for="PercentageEducationBSc">Bachelor’s degree:</label>
+                <input type="range" id="PercentageEducationBSc" name="PercentageEducationBSc" min="0" max="100">
+                <span class="slider-value" id="PercentageEducationBScValue">50%</span>
+            </div>
+            <br>
+        
+            <div class="slider-container">
+                <label for="PercentageEducationMSc">Master’s degree:</label>
+                <input type="range" id="PercentageEducationMSc" name="PercentageEducationMSc" min="0" max="100">
+                <span class="slider-value" id="PercentageEducationMScValue">50%</span>
+            </div>
+            <br>
+        
+            <div class="slider-container">
+                <label for="PercentageEducationPhD">Doctorate degree:</label>
+                <input type="range" id="PercentageEducationPhD" name="PercentageEducationPhD" min="0" max="100">
+                <span class="slider-value" id="PercentageEducationPhDValue">50%</span>
+            </div>
+            <br>
+        
+            <div class="slider-container">
+                <label for="PercentageEducationPostDoc">Post-doctorate:</label>
+                <input type="range" id="PercentageEducationPostDoc" name="PercentageEducationPostDoc" min="0" max="100">
+                <span class="slider-value" id="PercentageEducationPostDocValue">50%</span>
+            </div>
+            <br>
+        
+            <label for="SocialSecurity">Social Security:</label><br>
+            <input type="checkbox" id="SocialSecurity" name="SocialSecurity"><br><br>
+        
+            <div id="SocialSecurityDetails" style="display: none;">
+                <div class="slider-container">
+                    <label for="PercentageEmployeesSocialSecurity">Percentage of employees covered by the social security system:</label>
+                    <input type="range" id="PercentageEmployeesSocialSecurity" name="PercentageEmployeesSocialSecurity" min="0" max="100">
+                    <span class="slider-value" id="PercentageEmployeesSocialSecurityValue">50%</span>
+                </div>
+                <br>
+            </div>
+            <button type="button" onclick="toggleVisibility5()">Back</button>
+            <button type="button" onclick="toggleVisibility6()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar6"></div>
+                </div>
+                <div class="progress-text"> Página 6 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar6');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(35); 
+                </script>
+            <script src="/scripts/healthSocial.js"></script>
+        </div>
+
+        <div class="border" id="envMangementSis">
+            <label for="EnvironmentalSystem">Does the business have an environmental management system?</label><br>
+            <select id="EnvironmentalSystem" name="EnvironmentalSystem">
+                <option value="">-</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Under development">Under development</option>
+            </select><br><br>
+    
+            <div id="CertificationInfo" style="display: none;">
+                <label for="CertificationFromStandardBody">Is the certification from a recognized standard body like ISO (e.g., ISO 14001)?</label><br>
+                <select id="CertificationFromStandardBody" name="CertificationFromStandardBody">
+                    <option value="">-</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select><br><br>
+    
+                <label for="UploadDdata">Upload recent data on your environmental management system <br>(e.g., sustainability reports, energy audits, certificates):</label><br>
+                <input type="file" id="UploadDdata" name="UploadDdata"><br><br>
+            </div>
+    
+            <label for="EnvironmentalSystemStandards">Are environmental aspects considered when choosing suppliers?</label><br>
+            <input type="checkbox" id="EnvironmentalSystemStandards" name="EnvironmentalSystemStandards" value=""><br><br>
+    
+            <div id="SupplierSelectionEnvironmentalCriteria" style="display: none;">
+                <label for="SupplierSelectionEnvironmentalCriteria">What environmental criteria are required of suppliers?</label><br>
+                <input type="text" id="SupplierSelectionEnvironmentalCriteria" name="SupplierSelectionEnvironmentalCriteria"><br><br>
+    
+                <label for="SupplierSelectionEnvironmentalWeight">If you have formal criteria in your supplier selection process,<br> what is the weight of the environmental component compared to other criteria such as price,<br> availability, and quality? (percent)</label><br>
+                <input type="number" id="SupplierSelectionEnvironmentalWeight" name="SupplierSelectionEnvironmentalWeight" min="0" max="100"><br><br>
+            </div>
+            <button type="button" onclick="toggleVisibility6()">Back</button>
+            <button type="button" onclick="toggleVisibility7()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar7"></div>
+                </div>
+                <div class="progress-text"> Página 7 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar7');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(40); 
+                </script>
+            <script src="scripts/enviromntalSis.js"></script>
+        </div>
+
+        <div class="border" id="energyCons">
+            <h2>Energy Consumption</h2>
+            
+            <!-- Fossil fuels -->
+            <label>Fossil fuels in the organization headquarters (unit):</label><br>
+            <!-- Dropdown to select energy products -->
+            <select id="FossilFuelID" name="FossilFuelID">
+                <option value="">-</option>
+                <option value="Propane - kg">Propane - kg</option>
+                <option value="Butane - kg">Butane - kg</option>
+                <option value="Natural Gas - normal m3">Natural Gas - normal m3</option>
+                <option value="Liquefied Natural Gas - kg or normal m3">Liquefied Natural Gas - kg or normal m3</option>
+                <option value="Natural Gas (mains) - m3">Natural Gas (mains) - m3</option>
+                <option value="LPG - kg or normal m3">LPG - kg or normal m3</option>
+                <option value="Diesel (with biodiesel blend) - L or m3">Diesel (with biodiesel blend) - L or m3</option>
+                <option value="Diesel (100% mineral) - L or m3">Diesel (100% mineral) - L or m3</option>
+                <option value="Gasoline (with bioethanol blend) - L or m3">Gasoline (with bioethanol blend) - L or m3</option>
+                <option value="Gasoline (100% mineral) - L or m3">Gasoline (100% mineral) - L or m3</option>
+                <option value="Jet fuel - L or m3">Jet fuel - L or m3</option>
+                <option value="Kerosene - L or m3">Kerosene - L or m3</option>
+                <option value="Pellets - kg">Pellets - kg</option>
+                <option value="Firewood - kg">Firewood - kg</option>
+                <option value="Coal - kg">Coal - kg</option>
+                <option value="Naphtha - kg">Naphtha - kg</option>
+            </select><br><br>
+            
+            <label for="FossilAmount">Amount:</label>
+            <input type="number" id="FossilAmount" name="FossilAmount"><br><br>
+    
+            <h3>Electricity external supply in the organization’s installations:</h3>
+            <label for="ElectricityMeterID">How many supply electricity meters does the organization have?</label>
+            <input type="number" id="ElectricityMeterID" name="ElectricityMeterID"><br><br>
+    
+            <div id="ElectricityFields"></div>
+
+            <h3>Does the organization have internal electricity meters?</h3>
+            <label for="ElctricityMeterTypeID">How many?</label>
+            <input type="number" id="ElctricityMeterTypeID" name="ElctricityMeterTypeID"><br><br>
+      
+            <div id="ElectricityFields"></div>
+
+            <h3>Electricity generation:</h3>
+            <label for="ElctricityGenerationTypeID">Does the organization generate electricity?</label>
+            <input type="checkbox" id="ElctricityGenerationTypeID" name="ElctricityGenerationTypeID"><br><br>
+            
+            <div id="ElectricityFields"></div>
+
+            <h3>Other energy generation:</h3>
+            <label for="OtherEnergyGenerationTypeID">Does the organization produce other forms of energy?</label>
+            <input type="checkbox" id="OtherEnergyGenerationTypeID" name="OtherEnergyGenerationTypeID"><br><br>
+    
+            
+            <div id="ElectricityFields"></div>
+            
+            <h3>Heat and cold in the organization’s installations:</h3>
+            <label for="TemperatureTypeID">Heat usage:</label>
+            <input type="number" id="TemperatureTypeID" name="TemperatureTypeID"><br><br>
+    
+            <label for="TemperatureUsageID">Heat and/or cold usage description:</label>
+            <textarea id="TemperatureUsageID" name="TemperatureUsageID" rows="4" cols="50"></textarea><br><br>
+
+            <button type="button" onclick="toggleVisibility7()">Back</button>
+            <button type="button" onclick="toggleVisibility8()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar8"></div>
+                </div>
+                <div class="progress-text"> Página 8 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar8');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(50); 
+                </script>
+            <script src="scripts/energyCons.js"></script>
+        </div>
+        <div class="border" id="refrigeration">
+            <h2>RACHP Systems</h2>
+    
+            <h3>Refrigeration</h3>
+            <label for="RefrigerantGasReplacement">Refrigerant gas replacement:</label>
+            <button id="RefrigerantGasReplacementBtn" onclick="addProduct('refrigeration', this)">Add product</button><br><br>
+    
+            <label for="LeaksIdentified">Were there any identified leaks leading to emissions?</label>
+            <input type="checkbox" id="LeaksIdentified" name="LeaksIdentified"><br><br>
+    
+            <label for="SystemMaintainedFrequency">How regularly is the system maintained?</label>
+            <select id="SystemMaintainedFrequency" name="SystemMaintainedFrequency">
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Bi-annually">Bi-annually (Every 6 months)</option>
+                <option value="Annually">Annually</option>
+                <option value="Every_2_years">Every 2 years</option>
+                <option value="Every_3_years">Every 3 years or more</option>
+                <option value="Not_regularly">Not regularly maintained</option>
+            </select><br><br>
+    
+            <label for="service_report_upload">Upload maintainer’s service report:</label>
+            <input type="file" id="service_report_upload" name="service_report_upload"><br><br>
+    
+            <h3>Air-Conditioning</h3>
+            <label for="AcRefrigerantGasReplacement">Refrigerant gas replacement:</label>
+            <button id="AcRefrigerantGasReplacementBtn" onclick="addProduct('air_conditioning', this)">Add product</button><br><br>
+    
+            <label for="AcLeaksIdentified">Were there any identified leaks leading to emissions?</label>
+            <input type="checkbox" id="AcLeaksIdentified" name="AcLeaksIdentified"><br><br>
+    
+            <label for="AcMaintenanceFrequency">How regularly is the system maintained?</label>
+            <select id="AcMaintenanceFrequency" name="AcMaintenanceFrequency">
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Bi-annually">Bi-annually (Every 6 months)</option>
+                <option value="Annually">Annually</option>
+                <option value="Every_2_years">Every 2 years</option>
+                <option value="Every_3_years">Every 3 years or more</option>
+                <option value="Not_regularly">Not regularly maintained</option>
+            </select><br><br>
+    
+            <label for="AcServiceReportUpload">Upload maintainer’s service report:</label>
+            <input type="file" id="AcServiceReportUpload" name="AcServiceReportUpload"><br><br>
+    
+            <h3>Heat Pumps</h3>
+            <label for="HpRefrigerantGasReplacement">Refrigerant gas replacement:</label>
+            <button id="HpRefrigerantGasReplacementBtn" onclick="addProduct('heat_pumps', this)">Add product</button><br><br>
+    
+            <label for="HpLeaksIdentified">Were there any identified leaks leading to emissions?</label>
+            <input type="checkbox" id="HpLeaksIdentified" name="HpLeaksIdentified"><br><br>
+    
+            <label for="HpMaintenanceFrequency">How regularly is the system maintained?</label>
+            <select id="HpMaintenanceFrequency" name="HpMaintenanceFrequency">
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Bi-annually">Bi-annually (Every 6 months)</option>
+                <option value="Annually">Annually</option>
+                <option value="Every_2_years">Every 2 years</option>
+                <option value="Every_3_years">Every 3 years or more</option>
+                <option value="Not_regularly">Not regularly maintained</option>
+            </select><br><br>
+            <button type="button" onclick="toggleVisibility8()">Back</button>
+            <button type="button" onclick="toggleVisibility9()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar9"></div>
+                </div>
+                <div class="progress-text"> Página 9 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar9');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(55); 
+                </script>
+            <script src="scripts/refrigerator.js"></script>
+        </div>
+
+        <div class="border" id="travel">
+            <h2>Travel Report</h2>
+    
+            <h3>Air Travel</h3>
+            <label for="AirTripCount">Number of trips in reporting period:</label>
+            <input type="number" id="AirTripCount" name="AirTripCount"><br><br>
+            <div id="AirTripFields"></div>
+    
+            <h3>Travel by Rail</h3>
+            <label for="RailTripCount">Number of trips in reporting period:</label>
+            <input type="number" id="RailTripCount" name="RailTripCount"><br><br>
+            <div id="RailTripFields"></div>
+    
+            <h3>Travel by Road Vehicle</h3>
+            <label for="RoadTripCount">Number of trips in reporting period:</label>
+            <input type="number" id="RoadTripCount" name="RoadTripCount"><br><br>
+            <div id="RoadTravelFields"></div>
+            <br>
+            <button type="button" onclick="toggleVisibility9()">Back</button>
+            <button type="button" onclick="toggleVisibility10()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar10"></div>
+                </div>
+                <div class="progress-text"> Página 10 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar10');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(60); 
+                </script>
+            <script src="scripts/travel.js"></script>
+        </div>
+
+
+        <div class="border" id="waterCons">
+            <h2>Water Consumption Report</h2>
+            <label for="WaterSources">Please select the water sources used:</label>
+            <br>
+            <label for="TapWater">Tap water (from the utility supplier)</label>
+            <input type="checkbox" id="TapWater" name="WaterSources" value="TapWater">
+            <br>
+            <label for="SurfaceWater">Surface water (direct abstraction)</label>
+            <input type="checkbox" id="SurfaceWater" name="WaterSources" value="SurfaceWater">
+            <br>
+            <label for="GroundWater">Ground water (direct abstraction)</label>
+            <input type="checkbox" id="GroundWater" name="WaterSources" value="GroundWater">
+            <br>
+            <label for="RecycledWater">Recycled water (locally collected and treated)</label>
+            <input type="checkbox" id="RecycledWater" name="WaterSources" value="RecycledWater">
+            <br>
+            <label for="Rainwater">Rainwater (locally collected)</label>
+            <input type="checkbox" id="Rainwater" name="WaterSources" value="Rainwater">
+            <br><br>
+            <div id="WaterConsumptionFields"></div>
+            <br>
+            <button type="button" onclick="toggleVisibility10()">Back</button>
+            <button type="button" onclick="toggleVisibility11()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar11"></div>
+                </div>
+                <div class="progress-text"> Página 11 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar11');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(65); 
+                </script>
+            <script src="scripts/waterCons.js"></script>
+        </div>
+        <div class="border" id="materialCons">
+            <h2>Acquisitions Report</h2>
+    
+            <h3>Consumption of Materials</h3>
+            
+            <label for="PrintingPaper">Printing Paper (kg):</label>
+            <input type="number" id="PrintingPaper" name="PrintingPaper"><br><br>
+    
+            <label for="ToiletPaper">Toilet Paper (kg):</label>
+            <input type="number" id="ToiletPaper" name="ToiletPaper"><br><br>
+    
+            <label for="TotalPlastic">Total Plastic (kg):</label>
+            <input type="number" id="TotalPlastic" name="TotalPlastic"><br><br>
+    
+            <label for="18lBottles">Number of 18 L Bottles:</label>
+            <input type="number" id="18lBottles" name="18lBottles"><br><br>
+    
+            <label for="1_5lBottles">Number of 1.5 L Bottles:</label>
+            <input type="number" id="1_5lBottles" name="1_5lBottles"><br><br>
+    
+            <label for="0_5lBottles">Number of 0.5 L Bottles:</label>
+            <input type="number" id="0_5lBottles" name="0_5lBottles"><br><br>
+    
+            <label for="0_33lBottles">Number of 0.33 L Bottles:</label>
+            <input type="number" id="0_33lBottles" name="0_33lBottles"><br><br>
+    
+            <label for="0_25lBottles">Number of 0.25 L Bottles:</label>
+            <input type="number" id="0_25lBottles" name="0_25lBottles"><br><br>
+    
+            <label for="PlasticCups">Number of Plastic Cups:</label>
+            <input type="number" id="PlasticCups" name="PlasticCups"><br><br>
+    
+            <label for="InkCartridges">Number of Ink Cartridges:</label>
+            <input type="number" id="InkCartridges" name="InkCartridges"><br><br>
+    
+            <label for="Toners">Number of Toners:</label>
+            <input type="number" id="Toners" name="Toners"><br><br>
+    
+            <label for="PackagingForPg">Packaging for Produced Goods:</label>
+            <input type="number" id="PackagingForPg" name="PackagingForPg"><br><br>
+
+            <button type="button" onclick="toggleVisibility11()">Back</button>
+            <button type="button" onclick="toggleVisibility12()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar12"></div>
+                </div>
+                <div class="progress-text"> Página 12 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar12');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(70); 
+                </script>
+        </div>
+
+        <div class="border" id="wasteGen">
+            <h2>Waste Generation Report</h2>
+        
+            <h3>Paper</h3>
+            <label for="PaperWeight">Paper Weight (kg):</label>
+            <input type="number" id="PaperWeight" name="PaperWeight">
+            <label for="PaperManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="PaperManagementOperator" name="PaperManagementOperator"><br>
+        
+            <h3>Plastics</h3>
+            <label for="PlasticsWeight">Plastics Weight (kg):</label>
+            <input type="number" id="PlasticsWeight" name="PlasticsWeight">
+            <label for="PlasticManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="PlasticManagementOperator" name="PlasticManagementOperator"><br>
+        
+            <h3>Glass</h3>
+            <label for="GlassWeight">Glass Weight (kg):</label>
+            <input type="number" id="GlassWeight" name="GlassWeight">
+            <label for="GlassManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="GlassManagementOperator" name="GlassManagementOperator"><br>
+        
+            <h3>Ink and toner cartridges</h3>
+            <label for="InkAndTonerWeight">Ink and toner cartridges (kg):</label>
+            <input type="number" id="InkAndTonerWeight" name="InkAndTonerWeight">
+            <label for="InkAndTonerManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="InkAndTonerManagementOperator" name="InkAndTonerManagementOperator"><br>
+        
+            <h3>Electric and electronic waste </h3>
+            <label for="ElectricWeight">Electric and electronic waste (kg):</label>
+            <input type="number" id="ElectricWeight" name="ElectricWeight">
+            <label for="ElectricManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="ElectricManagementOperator" name="ElectricManagementOperator"><br>
+        
+            <h3>Batteries </h3>
+            <label for="BatteriesWeight">Batteries (kg):</label>
+            <input type="number" id="BatteriesWeight" name="BatteriesWeight">
+            <label for="BatteriesManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="BatteriesManagementOperator" name="BatteriesManagementOperator"><br><br>
+
+            <button type="button" onclick="toggleVisibility12()">Back</button>
+            <button type="button" onclick="toggleVisibility13()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar13"></div>
+                </div>
+                <div class="progress-text"> Página 13 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar13');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(80); 
+                </script>
+        </div>
+
+        <div class="border" id="wasteGen2">
+            <h3>Lubricant oils</h3>
+            <label for="LubricantWeight">Lubricant oils (kg):</label>
+            <input type="number" id="glass_weight" name="glass_weight">
+            <label for="LubricantManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="LubricantManagementOperator" name="LubricantManagementOperator"><br>
+    
+            <h3>Food oils</h3>
+            <label for="FoodWeight">Food oils (kg):</label>
+            <input type="number" id="glass_weight" name="glass_weight">
+            <label for="FoodManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="FoodManagementOperator" name="FoodManagementOperator"><br>
+    
+            <h3>Lamps</h3>
+            <label for="LampsWeight">Lamps (kg):</label>
+            <input type="number" id="glass_weight" name="glass_weight">
+            <label for="LampsManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="LampsManagementOperator" name="LampsManagementOperator"><br>
+    
+            <h3>Contaminated packaging (toxic chemicals)</h3>
+            <label for="ContaminatedPackagingWeight">Contaminated packaging (toxic chemicals) (kg):</label>
+            <input type="number" id="ContaminatedPackagingWeight" name="ContaminatedPackagingWeight">
+            <label for="ContaminatedPackagingManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="ContaminatedPackagingManagementOperator" name="ContaminatedPackagingManagementOperator"><br>
+    
+            <h3>Pressurized containers</h3>
+            <label for="PressurizedContainersWeight">Pressurized containers (kg):</label>
+            <input type="number" id="PressurizedContainersWeight" name="PressurizedContainersWeight">
+            <label for="PressurizedContainersManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="PressurizedContainersManagementOperator" name="PressurizedContainersManagementOperator"><br>
+    
+            <h3>Construction waste</h3>
+            <label for="ConstructionWasteWeight">Construction waste (kg):</label>
+            <input type="number" id="ConstructionWasteWeight" name="ConstructionWasteWeight">
+            <label for="ConstructionWasteManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="ConstructionWasteManagementOperator" name="ConstructionWasteManagementOperator"><br><br>
+
+            <button type="button" onclick="toggleVisibility13()">Back</button>
+            <button type="button" onclick="toggleVisibility14()">Next</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar14"></div>
+                </div>
+                <div class="progress-text"> Página 14 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar14');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(90); 
+                </script>
+        </div>
+
+        <div class="border" id="wasteGen3">
+            <h3>Furniture</h3>
+            <label for="FurnitureWeight">Furniture (kg):</label>
+            <input type="number" id="FurnitureWeight" name="FurnitureWeight">
+            <label for="FurnitureManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="FurnitureManagementOperator" name="FurnitureManagementOperator"><br>
+            
+            <h3>Agriculture/yard biowaste</h3>
+            <label for="Agriculture/YardBiowasteWeight">Agriculture/yard biowaste (kg):</label>
+            <input type="number" id="Agriculture/YardBiowasteWeight" name="Agriculture/YardBiowasteWeight">
+            <label for="Agriculture/YardBiowasteManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="Agriculture/YardBiowasteManagementOperator" name="Agriculture/YardBiowasteManagementOperator"><br>
+    
+            <h3>Organic (food) waste</h3>
+            <label for="Organic(food)WasteWeight">Organic (food) waste (kg):</label>
+            <input type="number" id="Organic(food)WasteWeight" name="Organic(food)WasteWeight">
+            <label for="Organic(food)WasteManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="Organic(food)WasteManagementOperator" name="Organic(food)WasteManagementOperator"><br>
+    
+            <h3>Coffee capsules</h3>
+            <label for="CoffeeCapsulesWeight">Coffee capsules (kg):</label>
+            <input type="number" id="CoffeeCapsulesWeight" name="CoffeeCapsulesWeight">
+            <label for="CoffeeCapsulesManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="CoffeeCapsulesManagementOperator" name="CoffeeCapsulesManagementOperator"><br>
+    
+            <h3>Corks</h3>
+            <label for="CorksWeight">Corks (kg):</label>
+            <input type="number" id="CorksWeight" name="CorksWeight">
+            <label for="CorksManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="CorksManagementOperator" name="CorksManagementOperator"><br>
+    
+            <h3>Other</h3>
+            <label for="OtherWasteWeight">Other Waste Weight (kg):</label>
+            <input type="number" id="OtherWasteWeight" name="OtherWasteWeight">
+            <label for="OtherWasteManagementOperator"><br><br>Responsible Waste Management Operator:</label>
+            <input type="text" id="OtherWasteManagementOperator" name="OtherWasteManagementOperator"><br><br>
+
+            <button type="button" onclick="toggleVisibility14()">Back</button>
+            <button type="button" onsubmit="Submit">Submit</button><br><br>
+            <div class="progress-wrapper">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar15"></div>
+                </div>
+                <div class="progress-text"> Página 15 de 15</div>
+            </div>
+                <script>
+                    function setProgress(percentage) {
+                        const progressBar = document.getElementById('progress-bar15');
+                        progressBar.style.width = percentage + '%';
+                    }
+                    setProgress(100); 
+                </script>
+        </div>
+    </form>
+    <script>
+        // Função para carregar as companhias no select usando AJAX
+        function loadCompanyInfo(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'company.php?id=' + id, true);
+
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    var companies = JSON.parse(xhr.responseText);
+                    companies.forEach(function (company) {
+                        console.log("CompanyID: ", company.CompanyID);
+                        document.getElementById("CompanyID").value = company.CompanyID;
+                        document.getElementById("CompanyName").value = company.CompanyName;
+                        document.getElementById("company_description_input").value = company.CompanyDescription;
+                        document.getElementById("reference_year").value = company.ReferenceYear;
+                        document.getElementById("products").value = company.TourismProducts;
+                        document.getElementById("TotalEmployees").value = company.TotalEmployees;
+                        document.getElementById("PercentageFemaleEmployees").value = company.PercentageFemaleEmployees;
+                        document.getElementById("PercentageMaleEmployees").value = company.PercentageMaleEmployees;
+                        document.getElementById("FemaleAverageSalary").value = company.FemaleAverageSalary;
+                        document.getElementById("MaleAverageSalary").value = company.MaleAverageSalary;
+                        document.getElementById("FemaleHighestSalary").value = company.FemaleHighestSalary;
+                        document.getElementById("FemaleHighestSalaryDuties").value = company.FemaleHighestSalaryDuties;
+                        document.getElementById("MaleHighestSalary").value = company.MaleHighestSalary;
+                        document.getElementById("MaleHighestSalaryDuties").value = company.MaleHighestSalaryDuties;
+                        document.getElementById("FemaleLowestSalary").value = company.FemaleLowestSalary;
+                        document.getElementById("FemaleLowestSalaryDuties").value = company.FemaleLowestSalaryDuties;
+                        document.getElementById("MaleLowestSalary").value = company.MaleLowestSalary;
+                        document.getElementById("MaleLowestSalaryDuties").value = company.MaleLowestSalaryDuties;
+                        document.getElementById("PercentageForeignEmployees").value = company.PercentageForeignEmployees;
+                        document.getElementById("ForeignAverageSalary").value = company.ForeignAverageSalary;
+                        document.getElementById("NationalAverageSalary").value = company.NationalAverageSalary;
+                        document.getElementById("ForeignHighestSalary").value = company.ForeignHighestSalary;
+                        document.getElementById("ForeignHighestSalaryDuties").value = company.ForeignHighestSalaryDuties;
+                        document.getElementById("NationalHighestSalary").value = company.NationalHighestSalary;
+                        document.getElementById("NationalHighestSalaryDuties").value = company.NationalHighestSalaryDuties;
+                        document.getElementById("ForeignLowestSalary").value = company.ForeignLowestSalary;
+                        //document.getElementById("ForeignLowestSalaryDuties").value = company.ForeignLowestSalaryDuties;
+                        document.getElementById("NationalLowestSalary").value = company.NationalLowestSalary;
+                        document.getElementById("NationalLowestSalaryDuties").value = company.NationalLowestSalaryDuties;
+                        document.getElementById("AverageWeeklyHoursWorkEmployee").value = company.AverageWeeklyHoursWorkEmployee;
+                        document.getElementById("FemaleAverageWeeklyHoursWork").value = company.FemaleAverageWeeklyHoursWork;
+                        document.getElementById("MaleAverageWeeklyHoursWork").value = company.MaleAverageWeeklyHoursWork;
+                        document.getElementById("ForeignAverageWeeklyHoursWork").value = company.ForeignAverageWeeklyHoursWork;
+                        document.getElementById("NationalAverageWeeklyHoursWork").value = company.NationalAverageWeeklyHoursWork;
+                        document.getElementById("HealthcareSystemPercentageEmployees").value = company.HealthcareSystemPercentageEmployees;
+                        document.getElementById("HealthcareSystemName").value = company.HealthcareSystemName;
+                        document.getElementById("HealthcareSystemProvider").value = company.HealthcareSystemProvider;
+                        //document.getElementById("HealthcareSystemDescription").value = company.HealthcareSystemDescription;
+                        document.getElementById("PercentageEducationNone").value = company.PercentageEducationNone;
+                        document.getElementById("PercentageEducationPrimary").value = company.PercentageEducationPrimary;
+                        document.getElementById("PercentageEducationSecondary").value = company.PercentageEducationSecondary;
+                        document.getElementById("PercentageEducationVocational").value = company.PercentageEducationVocational;
+                        document.getElementById("PercentageEducationBSc").value = company.PercentageEducationBSc;
+                        document.getElementById("PercentageEducationMSc").value = company.PercentageEducationMSc;
+                        document.getElementById("PercentageEducationPhD").value = company.PercentageEducationPhD;
+                        document.getElementById("PercentageEducationPostDoc").value = company.PercentageEducationPostDoc;
+                        document.getElementById("PercentageEmployeesSocialSecurity").value = company.PercentageEmployeesSocialSecurity;
+                        document.getElementById("EnvironmentalSystem").value = company.EnvironmentalSystem;
+                        document.getElementById("EnvironmentalSystemStandards").value = company.EnvironmentalSystemStandards;
+                        document.getElementById("SupplierSelectionEnvironmentalCriteria").value = company.SupplierSelectionEnvironmentalCriteria;
+                        document.getElementById("SupplierSelectionEnvironmentalWeight").value = company.SupplierSelectionEnvironmentalWeight;
+                        //document.getElementById("EnvironmentalOtherComments").value = company.EnvironmentalOtherComments;
+                        
+                    });
+                } else {
+                    console.error('Failed to load companies.');
+                }
+            };
+
+            xhr.send();
+        }
+        
+        const queryString = window.location.search;
+        console.log(queryString);
+
+        const urlParams = new URLSearchParams(queryString);
+
+        const companyid = urlParams.get('id')
+        console.log(companyid);
+
+        // Chamada para carregar os campos da companhia ao carregar a página
+        if(companyid){
+           loadCompanyInfo(companyid); 
+        }
+        
+        
+
+        
+    </script> 
+
+</body>
+</html>

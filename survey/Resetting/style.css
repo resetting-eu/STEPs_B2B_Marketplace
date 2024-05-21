@@ -1,0 +1,149 @@
+body {
+    background: url(images/praia.jpg);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.border{
+    border: 1px solid #ccc; 
+    padding: 30px; 
+    margin: 0 auto; 
+    width: 500px;
+    max-width: 800px; 
+    background-color: #f9f9f9;
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+textarea,
+input[type="text"],
+select {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    padding: 10px; /* Adicionando algum espaço ao redor do slider */
+}
+
+.slider-value {
+    margin-left: 10px;
+}
+
+.progress-wrapper {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.progress-container {
+    width: 50%;
+    max-width: 600px;
+    background-color: #e0e0e0;
+    border-radius: 25px;
+    margin-right: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    height: 10px;
+    width: 0;
+    background-color: #4a90e2;
+    border-radius: 25px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    left: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+}
+
+#work_characterization {
+    display: none;
+}
+#work_characterization2 {
+    display: none;
+}
+#work_characterization3 {
+    display: none;
+}
+#work_characterization4 {
+    display: none;
+}
+#work_characterization5 {
+    display: none;
+}
+#envMangementSis {
+    display: none;
+}
+#energyCons {
+    display: none;
+}
+#refrigeration {
+    display: none;
+}
+#travel {
+    display: none;
+}
+#waterCons {
+    display: none;
+}
+#materialCons {
+    display: none;
+}
+#wasteGen {
+    display: none;
+}
+#wasteGen2 {
+    display: none;
+}
+#wasteGen3 {
+    display: none;
+}   
+
+button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+
