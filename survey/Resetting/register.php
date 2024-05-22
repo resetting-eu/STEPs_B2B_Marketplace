@@ -1,6 +1,6 @@
 <?php
     // Configurações do banco de dados
-    $servername = "localhost";
+    $servername = "51.210.142.141";
     $username = "root";
     $password = "";
     $dbname = "resetting";

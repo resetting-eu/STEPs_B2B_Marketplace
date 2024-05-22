@@ -2,7 +2,7 @@
 // Verifica se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Configurações de conexão com o banco de dados
-    $hostname = 'localhost';
+    $hostname = '51.210.142.141';
     $username = 'root';
     $password = '';
     $database = 'resitting';

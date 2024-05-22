@@ -1,6 +1,6 @@
 <?php
 // Conectar ao banco de dados MySQL
-$servername = "localhost";
+$servername = "51.210.142.141";
 $username = "root";
 $password = "";
 $dbname = "resetting";
