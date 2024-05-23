@@ -1,25 +1,26 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
 <head>
-    <title>Resetting RDL</title>    
-    <script src="/scripts/scriptPaginas.js"></script>
+    <title>Resetting</title>    
+    <script src="scripts/scriptPaginas.js"></script>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <form method="post" action="company.php">
-        
         <div class="border" id="company_description">
             <header>
-                <h1>Resetting RDL</h1><br>
+                <h1>Resetting</h1><br>
             </header>
             <input type="hidden" id="CompanyID" name="CompanyID">
             <h2>Company Name</h2>
             <textarea id="CompanyName" name="CompanyName" rows="1" cols="50"></textarea><br> 
             <h2>Company Description</h2>
-            <label for="company_description">Please provide a brief description of the organization’s business and offer:</label><br><br>
-            <textarea id="CompanyDescription" name="CompanyDescription" rows="3" cols="50"></textarea><br><br>
+            <label for="company_description">Please provide a brief description of the organization's business and offer:</label>
+            <textarea id="CompanyDescription" name="CompanyDescription" rows="3" cols="50"></textarea><br>
             <h2>Reference Year</h2>
-            <label for="reference_year">Please select the reference year for the data collected:</label><br><br>
+            <label for="reference_year">Please select the reference year for the data collected:</label><br>
             <select id="ReferenceYear" name="ReferenceYear">
                 <option value="2023">2023</option>
                 <option value="2022">2022</option>
@@ -35,7 +36,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar"></div>
                 </div>
-                <div class="progress-text"> Página 1 de 15</div>
+                <div class="progress-text"> Page 1 de 15</div>
             </div>
             
             
@@ -44,9 +45,10 @@
                     const progressBar = document.getElementById('progress-bar');
                     progressBar.style.width = percentage + '%';
                 }
-                setProgress(5); 
+                setProgress(5);
             </script>
-            <script src="/scripts/companyDesc.js"></script>
+            <script src="scripts/companyDesc.js"></script>
+    
         </div>
         
         <div class="border" id="work_characterization">
@@ -84,7 +86,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar2"></div>
                 </div>
-                <div class="progress-text"> Página 2 de 15</div>
+                <div class="progress-text"> Page 2 de 15</div>
             </div>
                 
                 <script>
@@ -94,7 +96,7 @@
                     }
                     setProgress(10);
                 </script>
-            <script src="/scripts/workForce.js"></script>
+            
         </div>
         <div class="border" id="work_characterization2">
             <label for="FemaleLowestSalary">Lowest salary of female employees: </label><br>
@@ -116,8 +118,8 @@
             <br>
             <div class="slider-container">
                 <label for="PercentageNationalEmployees">Percentege of national employees: </label>
-                <input type="range" id="NationalForeignEmployees" name="NationalForeignEmployees" min="0" max="100">
-                <span class="slider-value" id="NationalForeignEmployeesValues">50%</span>
+                <input type="range" id="PercentageNationalEmployees" name="PercentageNationalEmployees" min="0" max="100">
+                <span class="slider-value" id="PercentageNationalEmployeesValue">50%</span>
             </div>
             <br>
 
@@ -127,16 +129,17 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar3"></div>
                 </div>
-                <div class="progress-text"> Página 3 de 15</div>
+                <div class="progress-text"> Page 3 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
                         const progressBar = document.getElementById('progress-bar3');
                         progressBar.style.width = percentage + '%';
                     }
-                    setProgress(15); 
+                    setProgress(15);
                 </script>
-            <script src="/scripts/workForce.js"></script>
+                <script src="scripts/workForce.js"></script>
+            
         </div>
         <div class="border" id="work_characterization3">
             <label for="ForeignAverageSalary">Average salary of foreign employees: </label><br>
@@ -175,16 +178,17 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar4"></div>
                 </div>
-                <div class="progress-text"> Página 4 de 15</div>
+                <div class="progress-text"> Page 4 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
                         const progressBar = document.getElementById('progress-bar4');
                         progressBar.style.width = percentage + '%';
                     }
-                    setProgress(20); 
+                    setProgress(20);
                 </script>
-            <script src="/scripts/workForce.js"></script>
+                <script src="scripts/workForce.js"></script>
+            
         </div>
         <div class="border" id="work_characterization4">
             <label for="AverageWeeklyHoursWorkEmployee">Average weekly hours of work per employee: </label><br>
@@ -208,7 +212,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar5"></div>
                 </div>
-                <div class="progress-text"> Página 5 de 15</div>
+                <div class="progress-text"> Page 5 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -217,7 +221,7 @@
                     }
                     setProgress(25); 
                 </script>
-            <script src="/scripts/workForce.js"></script>
+            
         </div>
         <div class="border" id="work_characterization5">
 
@@ -256,7 +260,7 @@
             <div class="slider-container">
                 <label for="PercentageEducationSecondary">Secondary education:</label>
                 <input type="range" id="PercentageEducationSecondary" name="PercentageEducationSecondary" min="0" max="100">
-                <span class="slider-value" id="PercentageEducationSecondary">50%</span>
+                <span class="slider-value" id="PercentageEducationSecondaryValue">50%</span>
             </div>
             <br>
         
@@ -268,14 +272,14 @@
             <br>
         
             <div class="slider-container">
-                <label for="PercentageEducationBSc">Bachelor’s degree:</label>
+                <label for="PercentageEducationBSc">Bachelor's degree:</label>
                 <input type="range" id="PercentageEducationBSc" name="PercentageEducationBSc" min="0" max="100">
                 <span class="slider-value" id="PercentageEducationBScValue">50%</span>
             </div>
             <br>
         
             <div class="slider-container">
-                <label for="PercentageEducationMSc">Master’s degree:</label>
+                <label for="PercentageEducationMSc">Master's degree:</label>
                 <input type="range" id="PercentageEducationMSc" name="PercentageEducationMSc" min="0" max="100">
                 <span class="slider-value" id="PercentageEducationMScValue">50%</span>
             </div>
@@ -312,7 +316,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar6"></div>
                 </div>
-                <div class="progress-text"> Página 6 de 15</div>
+                <div class="progress-text"> Page 6 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -321,7 +325,8 @@
                     }
                     setProgress(35); 
                 </script>
-            <script src="/scripts/healthSocial.js"></script>
+                <script src="scripts/healthSocial.js"></script>
+            
         </div>
 
         <div class="border" id="envMangementSis">
@@ -361,7 +366,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar7"></div>
                 </div>
-                <div class="progress-text"> Página 7 de 15</div>
+                <div class="progress-text"> Page 7 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -370,7 +375,8 @@
                     }
                     setProgress(40); 
                 </script>
-            <script src="scripts/enviromntalSis.js"></script>
+                <script src="scripts/enviromntalSis.js"></script>
+            
         </div>
 
         <div class="border" id="energyCons">
@@ -402,7 +408,7 @@
             <label for="FossilAmount">Amount:</label>
             <input type="number" id="FossilAmount" name="FossilAmount"><br><br>
     
-            <h3>Electricity external supply in the organization’s installations:</h3>
+            <h3>Electricity external supply in the organization's installations:</h3>
             <label for="ElectricityMeterID">How many supply electricity meters does the organization have?</label>
             <input type="number" id="ElectricityMeterID" name="ElectricityMeterID"><br><br>
     
@@ -427,7 +433,7 @@
             
             <div id="ElectricityFields"></div>
             
-            <h3>Heat and cold in the organization’s installations:</h3>
+            <h3>Heat and cold in the organization's installations:</h3>
             <label for="TemperatureTypeID">Heat usage:</label>
             <input type="number" id="TemperatureTypeID" name="TemperatureTypeID"><br><br>
     
@@ -440,7 +446,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar8"></div>
                 </div>
-                <div class="progress-text"> Página 8 de 15</div>
+                <div class="progress-text"> Page 8 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -449,18 +455,18 @@
                     }
                     setProgress(50); 
                 </script>
-            <script src="scripts/energyCons.js"></script>
+                <script src="scripts/energyCons.js"></script>
         </div>
         <div class="border" id="refrigeration">
             <h2>RACHP Systems</h2>
-    
+            
+            <!-- Refrigeration Section -->
             <h3>Refrigeration</h3>
             <label for="RefrigerantGasReplacement">Refrigerant gas replacement:</label>
-            <button id="RefrigerantGasReplacementBtn" onclick="addProduct('refrigeration', this)">Add product</button><br><br>
-    
+            <button id="RefrigerantGasReplacementBtn" onclick="addProductRefri('refrigeration')">Add product</button><br><br>
+            <div id="refrigeration-products"></div>
             <label for="LeaksIdentified">Were there any identified leaks leading to emissions?</label>
             <input type="checkbox" id="LeaksIdentified" name="LeaksIdentified"><br><br>
-    
             <label for="SystemMaintainedFrequency">How regularly is the system maintained?</label>
             <select id="SystemMaintainedFrequency" name="SystemMaintainedFrequency">
                 <option value="Monthly">Monthly</option>
@@ -471,17 +477,16 @@
                 <option value="Every_3_years">Every 3 years or more</option>
                 <option value="Not_regularly">Not regularly maintained</option>
             </select><br><br>
-    
-            <label for="service_report_upload">Upload maintainer’s service report:</label>
+            <label for="service_report_upload">Upload maintainer's service report:</label>
             <input type="file" id="service_report_upload" name="service_report_upload"><br><br>
-    
+        
+            <!-- Air-Conditioning Section -->
             <h3>Air-Conditioning</h3>
             <label for="AcRefrigerantGasReplacement">Refrigerant gas replacement:</label>
-            <button id="AcRefrigerantGasReplacementBtn" onclick="addProduct('air_conditioning', this)">Add product</button><br><br>
-    
+            <button id="AcRefrigerantGasReplacementBtn" onclick="addProductRefri('air_conditioning')">Add product</button><br><br>
+            <div id="air_conditioning-products"></div>
             <label for="AcLeaksIdentified">Were there any identified leaks leading to emissions?</label>
             <input type="checkbox" id="AcLeaksIdentified" name="AcLeaksIdentified"><br><br>
-    
             <label for="AcMaintenanceFrequency">How regularly is the system maintained?</label>
             <select id="AcMaintenanceFrequency" name="AcMaintenanceFrequency">
                 <option value="Monthly">Monthly</option>
@@ -492,17 +497,16 @@
                 <option value="Every_3_years">Every 3 years or more</option>
                 <option value="Not_regularly">Not regularly maintained</option>
             </select><br><br>
-    
-            <label for="AcServiceReportUpload">Upload maintainer’s service report:</label>
+            <label for="AcServiceReportUpload">Upload maintainer's service report:</label>
             <input type="file" id="AcServiceReportUpload" name="AcServiceReportUpload"><br><br>
-    
+        
+            <!-- Heat Pumps Section -->
             <h3>Heat Pumps</h3>
             <label for="HpRefrigerantGasReplacement">Refrigerant gas replacement:</label>
-            <button id="HpRefrigerantGasReplacementBtn" onclick="addProduct('heat_pumps', this)">Add product</button><br><br>
-    
+            <button id="HpRefrigerantGasReplacementBtn" onclick="addProductRefri('heat_pumps')">Add product</button><br><br>
+            <div id="heat_pumps-products"></div>
             <label for="HpLeaksIdentified">Were there any identified leaks leading to emissions?</label>
             <input type="checkbox" id="HpLeaksIdentified" name="HpLeaksIdentified"><br><br>
-    
             <label for="HpMaintenanceFrequency">How regularly is the system maintained?</label>
             <select id="HpMaintenanceFrequency" name="HpMaintenanceFrequency">
                 <option value="Monthly">Monthly</option>
@@ -513,23 +517,26 @@
                 <option value="Every_3_years">Every 3 years or more</option>
                 <option value="Not_regularly">Not regularly maintained</option>
             </select><br><br>
+            
             <button type="button" onclick="toggleVisibility8()">Back</button>
             <button type="button" onclick="toggleVisibility9()">Next</button><br><br>
+        
             <div class="progress-wrapper">
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar9"></div>
                 </div>
-                <div class="progress-text"> Página 9 de 15</div>
+                <div class="progress-text"> Page 9 de 15</div>
             </div>
-                <script>
-                    function setProgress(percentage) {
+        </div>
+        
+        <script>
+            function setProgress(percentage) {
                         const progressBar = document.getElementById('progress-bar9');
                         progressBar.style.width = percentage + '%';
                     }
-                    setProgress(55); 
-                </script>
-            <script src="scripts/refrigerator.js"></script>
-        </div>
+                    setProgress(55);
+        </script>
+        <script src="scripts/refrigerator.js"></script>
 
         <div class="border" id="travel">
             <h2>Travel Report</h2>
@@ -555,7 +562,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar10"></div>
                 </div>
-                <div class="progress-text"> Página 10 de 15</div>
+                <div class="progress-text"> Page 10 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -564,7 +571,7 @@
                     }
                     setProgress(60); 
                 </script>
-            <script src="scripts/travel.js"></script>
+                <script src="scripts/travel.js"></script>
         </div>
 
 
@@ -595,7 +602,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar11"></div>
                 </div>
-                <div class="progress-text"> Página 11 de 15</div>
+                <div class="progress-text"> Page 11 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -604,7 +611,7 @@
                     }
                     setProgress(65); 
                 </script>
-            <script src="scripts/waterCons.js"></script>
+                <script src="scripts/waterCons.js"></script>
         </div>
         <div class="border" id="materialCons">
             <h2>Acquisitions Report</h2>
@@ -653,7 +660,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar12"></div>
                 </div>
-                <div class="progress-text"> Página 12 de 15</div>
+                <div class="progress-text"> Page 12 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -709,7 +716,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar13"></div>
                 </div>
-                <div class="progress-text"> Página 13 de 15</div>
+                <div class="progress-text"> Page 13 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -763,7 +770,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar14"></div>
                 </div>
-                <div class="progress-text"> Página 14 de 15</div>
+                <div class="progress-text"> Page 14 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {
@@ -817,7 +824,7 @@
                 <div class="progress-container">
                     <div class="progress-bar" id="progress-bar15"></div>
                 </div>
-                <div class="progress-text"> Página 15 de 15</div>
+                <div class="progress-text"> Page 15 de 15</div>
             </div>
                 <script>
                     function setProgress(percentage) {

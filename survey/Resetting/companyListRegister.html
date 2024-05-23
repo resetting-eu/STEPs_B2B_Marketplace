@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Company Selection</title>
+    <style>
+        /* Estilo para a dropdown editável com seta menor */
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .custom-dropdown input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            padding-right: 10px; /* Espaço para a seta */
+            font-size: 16px;
+        }
+
+        .custom-dropdown::after {
+            
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            font-size: 10px; /* Tamanho da seta*/
+            color: black; /* Cor da seta */
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="border">
+        <h2>Please choose the company that you want to work with!</h2>
+        <label for="company_select">Company name:</label><br>
+        <div class="custom-dropdown">
+            <input list="companies" id="company_select" name="company_select" oninput="toggleButtons()">
+            <datalist id="companies"></datalist>
+        </div>
+        <br><br>
+        <button id="edit_button" onclick="editCompany()" style="display:none;">Edit Company</button>
+        <button id="create_company" onclick="createCompany()">Create a New Company</button>
+    </div>
+</body>
+</html>

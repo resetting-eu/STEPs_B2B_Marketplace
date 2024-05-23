@@ -4,26 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Resetting RDL</title>
+    <title>Resetting</title>
 </head>
-
 <body>
-<div class="container">
-    <h2>Resetting RDL - Register</h2>
     <form action="register.php" method="post">
+    <div class="border">
+        <h2>Resetting</h2>
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-
+        <input type="text" id="name" name="name" required><br><br>
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-
+        <input type="email" id="email" name="email" required><br><br>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <label for="company_description">Brief Organization Description:</label>
-        <textarea id="company_description" name="company_description" rows="4" cols="50"></textarea>
-
-        <input type="submit" value="Register">
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="company_description">Please provide a brief description of the organization's business and offer:</label>
+        <textarea id="company_description" name="company_description" rows="4" cols="50"></textarea><br><br>
+        <a href="companyListRegister.html"><button type="submit" value="Submit">Submit</button></a>
+    </div>
     </form>
 </div>
 </body>

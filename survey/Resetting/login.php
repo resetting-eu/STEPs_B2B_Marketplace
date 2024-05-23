@@ -1,9 +1,9 @@
 <?php
 // Conectar ao banco de dados MySQL
-$servername = "51.210.142.141";
+$servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "resetting";
+$dbname = "resetting_survey_dev";
 
 // Cria a conexão com o banco de dados
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,17 +13,20 @@ if ($conn->connect_error) {
     die("Falha na conexão com o banco de dados: " . $conn->connect_error);
 }
 
+session_start();
+$sql = "SELECT company.CompanyID, company_name FROM company INNER JOIN companylogin INNER JOIN login WHERE login.loginid=companylogin.loginid AND company.companyid=companylogin.CompanyID AND login.loginid=" . $_SESSION['LoginID'];
+
 // Obter os dados do formulário de forma segura
 $email = $_POST['email'];
 $password = $_POST['password'];
 
 // Preparar e executar a consulta SQL usando prepared statements
-$stmt = $conn->prepare("SELECT * FROM login WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
+$sql = $conn->prepare("SELECT * FROM login WHERE email = ?");
+$sql->bind_param("s", $email);
+$sql->execute();
 
 // Obter o resultado da consulta
-$result = $stmt->get_result();
+$result = $sql->get_result();
 
 // Verifica se há algum resultado e se a senha está correta
 if ($result->num_rows > 0) {

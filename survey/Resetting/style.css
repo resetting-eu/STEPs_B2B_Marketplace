@@ -29,7 +29,7 @@ label {
 }
 
 textarea,
-input[type="text"],
+input[type="text"], input[type="email"], input[type="password"], input[type="number"],
 select {
     width: 100%;
     padding: 7px;
@@ -38,6 +38,7 @@ select {
     box-sizing: border-box;
     font-size: 14px;
 }
+
 
 .slider-container {
     display: flex;
@@ -78,7 +79,7 @@ select {
 .progress-text {
     left: 8px;
     font-size: 14px;
-    font-weight: bold;
+
     color: #333;
     white-space: nowrap;
 }
@@ -142,6 +143,7 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
 
 
 

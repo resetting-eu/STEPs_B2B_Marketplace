@@ -1,9 +1,9 @@
 <?php
 // Conexão com o banco de dados (substitua os dados conforme necessário)
-$servername = "51.210.142.141";
+$servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "resetting";
+$dbname = "resetting_survey_dev";
 
 // Estabelecer conexão com o banco de dados
 $conn = new mysqli($servername, $username, $password, $dbname);

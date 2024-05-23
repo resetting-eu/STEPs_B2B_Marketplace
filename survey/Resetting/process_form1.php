@@ -2,10 +2,10 @@
 // Verifica se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Configurações de conexão com o banco de dados
-    $hostname = '51.210.142.141';
-    $username = 'root';
-    $password = '';
-    $database = 'resitting';
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "resetting_survey_dev";
 
     try {
         // Estabelecer a conexão com o banco de dados usando PDO

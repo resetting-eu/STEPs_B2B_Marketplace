@@ -1,128 +1,126 @@
-function addProductRefri(type, button) {
-    var parentDiv = button.parentElement;
-    var productDiv = document.createElement("div");
-    productDiv.innerHTML = "<h3>Product</h3>" +
-        "<label for='product_name'>Product Name: </label>" +
-        "<select id='product_name' name='product_name[]'>" +
-        "<option value='Product 1'>R-404A</option>" +
-        "<option value='Product 2'>R-407A</option>" +
-        "<option value='Product 3'>R-407C</option>" +
-        "<option value='Product 4'>R-407F</option>" +
-        "<option value='Product 5'>R-407H</option>" +
-        "<option value='Product 6'>R-410A</option>" +
-        "<option value='Product 7'>R-413A</option>" +
-        "<option value='Product 8'>R-417A</option>" +
-        "<option value='Product 9'>R-417B</option>" +
-        "<option value='Product 10'>R-422A</option>" +
-        "<option value='Product 11'>R-422B</option>" +
-        "<option value='Product 12'>R-422D</option>" +
-        "<option value='Product 13'>R-423A</option>" +
-        "<option value='Product 14'>R-424A</option>" +
-        "<option value='Product 15'>R-427A</option>" +
-        "<option value='Product 16'>R-428A</option>" +
-        "<option value='Product 17'>R-434A</option>" +
-        "<option value='Product 18'>R-437A</option>" +
-        "<option value='Product 19'>R-438A</option>" +
-        "<option value='Product 20'>R-448A</option>" +
-        "<option value='Product 21'>R-449A</option>" +
-        "<option value='Product 22'>R-450A</option>" +
-        "<option value='Product 23'>R-452A</option>" +
-        "<option value='Product 24'>R-453A</option>" +
-        "<option value='Product 25'>R-454A</option>" +
-        "<option value='Product 26'>R-454B</option>" +
-        "<option value='Product 27'>R-454C</option>" +
-        "<option value='Product 28'>R-456A</option>" +
-        "<option value='Product 29'>R-473A</option>" +
-        "<option value='Product 30'>R-507A</option>" +
-        "<option value='Product 31'>R-508A</option>" +
-        "<option value='Product 32'>R-508B</option>" +
-        "<option value='Product 33'>R-513A</option>" +
-        "<option value='Product 34'>R-515B</option>" +
-        "<option value='Product 35'>HFE-125</option>" +
-        "<option value='Product 36'>HFE-134 (HG-00)</option>" +
-        "<option value='Product 37'>HFE-143a</option>" +
-        "<option value='Product 38'>HCFE-235da2 (isofluorane)</option>" +
-        "<option value='Product 39'>HFE-245cb2</option>" +
-        "<option value='Product 40'>HFE-245fa2</option>" +
-        "<option value='Product 41'>HFE-254cb2</option>" +
-        "<option value='Product 42'>HFE-347 mcc3 (HFE-7000)</option>" +
-        "<option value='Product 43'>HFE-347pcf2</option>" +
-        "<option value='Product 44'>HFE-356pcc3</option>" +
-        "<option value='Product 45'>HFE-449sl (HFE-7100)</option>" +
-        "<option value='Product 46'>HFE-569sf2 (HFE-7200)</option>" +
-        "<option value='Product 47'>HFE-43-10pccc124 (H-Galden 1040x) HG-11</option>" +
-        "<option value='Product 48'>HFE-236ca12 (HG-10)</option>" +
-        "<option value='Product 49'>HFE-338pcc13 (HG-01)</option>" +
-        "<option value='Product 50'HFE-347mmy1></option>" +
-        "<option value='Product 51'>2,2,3,3,3-pentafluoropropanol</option>" +
-        "<option value='Product 52'>bis(trifluoromethyl)-methanol</option>" +
-        "<option value='Product 53'>HFE-227ea</option>" +
-        "<option value='Product 54'>HFE-236ea2 (desfluoran)</option>" +
-        "<option value='Product 55'>HFE-236fa</option>" +
-        "<option value='Product 56'>HFE-245fa1</option>" +
-        "<option value='Product 57'>HFE 263fb2</option>" +
-        "<option value='Product 58'>HFE-329 mcc2</option>" +
-        "<option value='Product 59'>HFE-338 mcf2</option>" +
-        "<option value='Product 60'>HFE-338mmz1</option>" +
-        "<option value='Product 61'>HFE-347 mcf21</option>" +
-        "<option value='Product 62'>HFE-356 mec3</option>" +
-        "<option value='Product 63'>HFE-356mm1</option>" +
-        "<option value='Product 64'>HFE-356pcf2</option>" +
-        "<option value='Product 65'>HFE-356pcf3</option>" +
-        "<option value='Product 66'>HFE 365 mcf3</option>" +
-        "<option value='Product 67'>HFE-374pc2</option>" +
-        "<option value='Product 68'>HFCs</option>" +
-        "<option value='Product 69'>HFC-23</option>" +
-        "<option value='Product 70'>HFC-32</option>" +
-        "<option value='Product 71'>HFC-41</option>" +
-        "<option value='Product 72'>HFC-125</option>" +
-        "<option value='Product 73'>HFC-134</option>" +
-        "<option value='Product 74'>HFC-134a</option>" +
-        "<option value='Product 75'>HFC-143</option>" +
-        "<option value='Product 76'>HFC-143a</option>" +
-        "<option value='Product 77'>HFC-152</option>" +
-        "<option value='Product 78'>HFC-152a</option>" +
-        "<option value='Product 79'>HFC-161</option>" +
-        "<option value='Product 80'>HFC-227ea</option>" +
-        "<option value='Product 81'>HFC-236cb</option>" +
-        "<option value='Product 82'>HFC-236ea</option>" +
-        "<option value='Product 83'>HFC-236fa</option>" +
-        "<option value='Product 84'>HFC-245ca</option>" +
-        "<option value='Product 85'>HFC-245fa</option>" +
-        "<option value='Product 86'>HFC-365 mfc</option>" +
-        "<option value='Product 87'>HFC-43-10 mee</option>" +
-        "<option value='Product 88'>Other_perfluorinated_compounds</option>" +
-        "<option value='Product 89'>perfluoropolymethylisopropyl-ether (PFPMIE)</option>" +
-        "<option value='Product 90'>nitrogen trifluoride</option>" +
-        "<option value='Product 91'>trifluoromethyl sulphur pentafluoride</option>" +
-        "<option value='Product 92'>perfluorocyclopropane</option>" +
-        "<option value='Product 93'>PFCs</option>" +
-        "<option value='Product 94'>PFC-14</option>" +
-        "<option value='Product 95'>PFC-116</option>" +
-        "<option value='Product 96'>PFC-218</option>" +
-        "<option value='Product 97'>PFC-3-1-10</option>" +
-        "<option value='Product 98'>PFC-4-1-12</option>" +
-        "<option value='Product 99'>PFC-5-1-14</option>" +
-        "<option value='Product 100'>PFC-c-318</option>" +
-        "</select><br><br>" +
-        "<label for='product_description'>Product Description: </label>" +
-        "<textarea id='product_description' name='product_description[]' rows='3' cols='30'></textarea><br>" +
-        "<label for='product_percentage'>Percentage of Total Business Volume:</label>" +
-        "<input type='range' id='product_percentage' name='product_percentage[]' min='0' max='100'>" +
-        "<span id='product_percentage_value'>0%</span><br><br>" +
-        "<button type='button' onclick='removeProduct(this)'>Remove Product</button>"; // Adicionando um botão para remover o produto
-    parentDiv.insertBefore(productDiv, button.nextSibling);
 
-    var slider = productDiv.querySelector("input[type=range]");
-    var output = productDiv.querySelector("span");
-    output.innerHTML = slider.value + "%";
+    let productCounter = 0;
 
-    slider.oninput = function() {
-        output.innerHTML = this.value + "%";
-    };
-}
+    function addProductRefri(section) {
+        var sectionDiv = document.getElementById(section + '-products');
+        var newProduct = document.createElement('div');
+        productDiv.className = 'product-entry';
+        productDiv.id = `${section}-product-${productCounter}`;
+        const productHTML = `
+            <h3>Product</h3>
+            <label for='product_name_${section}_${productCounter}'>Product Name: </label>
+            <select id='product_name_${section}_${productCounter}' name='product_name_${section}[]'>
+            <option value='R-404A'>R-404A</option>
+            <option value='R-407A'>R-407A</option>
+            <option value='R-407C'>R-407C</option>
+            <option value='R-407F'>R-407F</option>
+            <option value='R-407H'>R-407H</option>
+            <option value='R-410A'>R-410A</option>
+            <option value='R-413A'>R-413A</option>
+            <option value='R-417A'>R-417A</option>
+            <option value='R-417B'>R-417B</option>
+            <option value='R-422A'>R-422A</option>
+            <option value='R-422B'>R-422B</option>
+            <option value='R-422D'>R-422D</option>
+            <option value='R-423A'>R-423A</option>
+            <option value='R-424A'>R-424A</option>
+            <option value='R-427A'>R-427A</option>
+            <option value='R-428A'>R-428A</option>
+            <option value='R-434A'>R-434A</option>
+            <option value='R-437A'>R-437A</option>
+            <option value='R-438A'>R-438A</option>
+            <option value='R-448A'>R-448A</option>
+            <option value='R-449A'>R-449A</option>
+            <option value='R-450A'>R-450A</option>
+            <option value='R-452A'>R-452A</option>
+            <option value='R-453A'>R-453A</option>
+            <option value='R-454A'>R-454A</option>
+            <option value='R-454B'>R-454B</option>
+            <option value='R-454C'>R-454C</option>
+            <option value='R-456A'>R-456A</option>
+            <option value='R-473A'>R-473A</option>
+            <option value='R-507A'>R-507A</option>
+            <option value='R-508A'>R-508A</option>
+            <option value='R-508B'>R-508B</option>
+            <option value='R-513A'>R-513A</option>
+            <option value='R-515B'>R-515B</option>
+            <option value='HFE-125'>HFE-125</option>
+            <option value='HFE-134 (HG-00)'>HFE-134 (HG-00)</option>
+            <option value='HFE-143a'>HFE-143a</option>
+            <option value='HCFE-235da2 (isofluorane)'>HCFE-235da2 (isofluorane)</option>
+            <option value='HFE-245cb2'>HFE-245cb2</option>
+            <option value='HFE-245fa2'>HFE-245fa2</option>
+            <option value='HFE-254cb2'>HFE-254cb2</option>
+            <option value='HFE-347 mcc3 (HFE-7000)'>HFE-347 mcc3 (HFE-7000)</option>
+            <option value='HFE-347pcf2'>HFE-347pcf2</option>
+            <option value='HFE-356pcc3'>HFE-356pcc3</option>
+            <option value='HFE-449sl (HFE-7100)'>HFE-449sl (HFE-7100)</option>
+            <option value='HFE-569sf2 (HFE-7200)'>HFE-569sf2 (HFE-7200)</option>
+            <option value='HFE-43-10pccc124 (H-Galden 1040x) HG-11'>HFE-43-10pccc124 (H-Galden 1040x) HG-11</option>
+            <option value='HFE-236ca12 (HG-10)'>HFE-236ca12 (HG-10)</option>
+            <option value='HFE-338pcc13 (HG-01)'>HFE-338pcc13 (HG-01)</option>
+            <option value='HFE-347mmy1'>HFE-347mmy1</option>
+            <option value='2,2,3,3,3-pentafluoropropanol'>2,2,3,3,3-pentafluoropropanol</option>
+            <option value='bis(trifluoromethyl)-methanol'>bis(trifluoromethyl)-methanol</option>
+            <option value='HFE-227ea'>HFE-227ea</option>
+            <option value='HFE-236ea2 (desfluoran)'>HFE-236ea2 (desfluoran)</option>
+            <option value='HFE-236fa'>HFE-236fa</option>
+            <option value='HFE-245fa1'>HFE-245fa1</option>
+            <option value='HFE 263fb2'>HFE 263fb2</option>
+            <option value='HFE-329 mcc2'>HFE-329 mcc2</option>
+            <option value='HFE-338 mcf2'>HFE-338 mcf2</option>
+            <option value='HFE-338mmz1'>HFE-338mmz1</option>
+            <option value='HFE-347 mcf21'>HFE-347 mcf21</option>
+            <option value='HFE-356 mec3'>HFE-356 mec3</option>
+            <option value='HFE-356mm1'>HFE-356mm1</option>
+            <option value='HFE-356pcf2'>HFE-356pcf2</option>
+            <option value='HFE-356pcf3'>HFE-356pcf3</option>
+            <option value='HFE 365 mcf3'>HFE 365 mcf3</option>
+            <option value='HFE-374pc2'>HFE-374pc2</option>
+            <option value='HFCs'>HFCs</option>
+            <option value='HFC-23'>HFC-23</option>
+            <option value='HFC-32'>HFC-32</option>
+            <option value='HFC-41'>HFC-41</option>
+            <option value='HFC-125'>HFC-125</option>
+            <option value='HFC-134'>HFC-134</option>
+            <option value='HFC-134a'>HFC-134a</option>
+            <option value='HFC-143'>HFC-143</option>
+            <option value='HFC-143a'>HFC-143a</option>
+            <option value='HFC-152'>HFC-152</option>
+            <option value='HFC-152a'>HFC-152a</option>
+            <option value='HFC-161'>HFC-161</option>
+            <option value='HFC-227ea'>HFC-227ea</option>
+            <option value='HFC-236cb'>HFC-236cb</option>
+            <option value='HFC-236ea'>HFC-236ea</option>
+            <option value='HFC-236fa'>HFC-236fa</option>
+            <option value='HFC-245ca'>HFC-245ca</option>
+            <option value='HFC-245fa'>HFC-245fa</option>
+            <option value='HFC-365 mfc'>HFC-365 mfc</option>
+            <option value='HFC-43-10 mee'>HFC-43-10 mee</option>
+            <option value='Other_perfluorinated_compounds'>Other perfluorinated compounds</option>
+            <option value='perfluoropolymethylisopropyl-ether (PFPMIE)'>perfluoropolymethylisopropyl-ether (PFPMIE)</option>
+            <option value='nitrogen trifluoride'>nitrogen trifluoride</option>
+            <option value='trifluoromethyl sulphur pentafluoride'>trifluoromethyl sulphur pentafluoride</option>
+            <option value='perfluorocyclopropane'>perfluorocyclopropane</option>
+            <option value='PFCs'>PFCs</option>
+            <option value='PFC-14'>PFC-14</option>
+            <option value='PFC-116'>PFC-116</option>
+            <option value='PFC-218'>PFC-218</option>
+            <option value='PFC-3-1-10'>PFC-3-1-10</option>
+            <option value='PFC-4-1-12'>PFC-4-1-12</option>
+            <option value='PFC-5-1-14'>PFC-5-1-14</option>
+            <option value='PFC-c-318'>PFC-c-318</option>    
+            </select><br>
+            <label for='product_description_${section}_${productCounter}'>Product Description: </label>
+            <textarea id='product_description_${section}_${productCounter}' name='product_description_${section}[]' rows='3' cols='30'></textarea><br>
+            <label for='product_percentage_${section}_${productCounter}'>Percentage of Total Business Volume:</label>
+            <input type='range' id='product_percentage_${section}_${productCounter}' name='product_percentage_${section}[]' min='0' max='100'>
+            <span id='product_percentage_value_${section}_${productCounter}'>0%</span><br><br>`;
 
-function remove(button) {
-    var productDiv = button.parentElement;
-    productDiv.parentNode.removeChild(productDiv);
-}
+        productDiv.innerHTML = productHTML;
+        const productsContainer = document.getElementById(`${section}-products`);
+        productsContainer.appendChild(productDiv);
+    }
+
+
+

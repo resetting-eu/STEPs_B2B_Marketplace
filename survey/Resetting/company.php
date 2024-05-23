@@ -1,9 +1,9 @@
 <?php
 // Conexão com o banco de dados (substitua os dados conforme necessário)
-$servername = "51.210.142.141";
+$servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "resetting";
+$dbname = "resetting_survey_dev";
 
 // Criar conexão com o banco de dados
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -53,56 +53,7 @@ if ($result->num_rows > 0) {
             'CompanyID' => $row['CompanyID'],
             'CompanyName' => $row['CompanyName'],
             'CompanyDescription' => $row['CompanyDescription'],
-            'ReferenceYear' => $row['ReferenceYear'],
-            'TourismProducts' => $row['TourismProducts'],
-            'TotalEmployees' => $row['TotalEmployees'],
-            'PercentageFemaleEmployees' => $row['PercentageFemaleEmployees'],
-            'PercentageMaleEmployees' => $row['PercentageMaleEmployees'],
-            'FemaleAverageSalary' => $row['FemaleAverageSalary '],
-            'MaleAverageSalary' => $row['MaleAverageSalary '],
-            'FemaleHighestSalary' => $row['FemaleHighestSalary'],
-            'FemaleHighestSalaryDuties' => $row['FemaleHighestSalaryDuties'],
-            'MaleHighestSalary' => $row['MaleHighestSalary'],
-            'MaleHighestSalaryDuties' => $row['MaleHighestSalaryDuties'],
-
-            'FemaleLowestSalary' => $row['FemaleLowestSalary '],
-            'FemaleLowestSalaryDuties' => $row['FemaleLowestSalaryDuties'],
-            'MaleLowestSalary' => $row['MaleLowestSalary'],
-            'MaleLowestSalaryDuties' => $row['MaleLowestSalaryDuties'],
-            'PercentageForeignEmployees' => $row['PercentageForeignEmployees'],
-            //natinal_employess_Percentage
-            'ForeignAverageSalary' => $row['ForeignAverageSalary'],
-            'NationalAverageSalary' => $row['NationalAverageSalary'],
-            'ForeignHighestSalary' => $row['ForeignHighestSalary'],
-            'ForeignHighestSalaryDuties' => $row['ForeignHighestSalaryDuties'],
-            'NationalHighestSalary' => $row['NationalHighestSalary'],
-            'NationalHighestSalaryDuties' => $row['NationalHighestSalaryDuties'],
-            'ForeignLowestSalary' => $row['ForeignLowestSalary'],
-            //'ForeignLowestSalaryDuties' => $row[''],
-            'AverageWeeklyHoursWorkEmployee' => $row['AverageWeeklyHoursWorkEmployee'],
-            'FemaleAverageWeeklyHoursWork' => $row['FemaleAverageWeeklyHoursWork'],
-            'MaleAverageWeeklyHoursWork' => $row['MaleAverageWeeklyHoursWork'],
-            'ForeignAverageWeeklyHoursWork' => $row['ForeignAverageWeeklyHoursWork'],
-            'NationalAverageWeeklyHoursWork' => $row['NationalAverageWeeklyHoursWork'],
-            //'HealthcareSystemPercentageEmployees' => $row['employees_covered_health_care'],
-            //'HealthcareSystemName' => $row['health_care_coverage_details'],
-            'HealthcareSystemProvider' => $row['HealthcareSystemProvider'],
-            //HealthcareSystemDescription
-            'PercentageEducationNone' => $row['PercentageEducationNone'],
-            'PercentageEducationPrimary' => $row['PercentageEducationPrimary'],
-            'PercentageEducationSecondary' => $row['PercentageEducationSecondary'],
-            'PercentageEducationVocational' => $row['PercentageEducationVocational'],
-            'PercentageEducationBSc' => $row['PercentageEducationBSc'],
-            'PercentageEducationMSc' => $row['PercentageEducationMSc'],
-            'PercentageEducationPhD' => $row['PercentageEducationPhD'],
-            'PercentageEducationPostDoc' => $row['post_doctorate'],
-            'PercentageEmployeesSocialSecurity' => $row['PercentageEmployeesSocialSecurity'],
-            'EnvironmentalSystem' => $row['EnvironmentalSystem'],
-            //'EnvironmentalSystemStandards' => $row['certification_from_standard_body'],
-            'SupplierSelectionEnvironmentalCriteria' => $row['SupplierSelectionEnvironmentalCriteria'],
-            'SupplierSelectionEnvironmentalWeight' => $row['SupplierSelectionEnvironmentalWeight']
-            //'EnvironmentalOtherComments' => $row['']
-            
+            'ReferenceYear' => $row['ReferenceYear']
         ];
     }
 }

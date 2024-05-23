@@ -1,42 +1,34 @@
 <?php
-// Conexão com o banco de dados (substitua os dados conforme necessário)
-$servername = "51.210.142.141";
+// Configurações de conexão com o banco de dados
+$servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "resetting";
+$dbname = "resetting_survey_dev";
 
-// Criar conexão com o banco de dados
+// Criação da conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexão
+// Verificação de conexão
 if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
-session_start();
-$sql = "SELECT company.CompanyID, company_name FROM company INNER JOIN companylogin INNER JOIN login WHERE login.loginid=companylogin.loginid AND company.companyid=companylogin.CompanyID AND login.loginid=" . $_SESSION['LoginID'];
-
-// Executar a consulta
+// Consulta para obter os nomes das companhias
+$sql = "SELECT CompanyName FROM company"; // Substitua 'company' pelo nome da sua tabela
 $result = $conn->query($sql);
 
-// Array para armazenar as companhias
-$companies = [];
+$companies = array();
 
-// Verificar se há resultados
 if ($result->num_rows > 0) {
-    // Loop através dos resultados e armazenar no array
-    while ($row = $result->fetch_assoc()) {
-        $companies[] = [
-            'id' => $row['CompanyID'],
-            'name' => $row['company_name']
-        ];
+    // Armazenar os dados no array
+    while($row = $result->fetch_assoc()) {
+        $companies[] = ['name' => $row["CompanyName"]];
     }
 }
 
-// Fechar conexão com o banco de dados
+// Fechar a conexão
 $conn->close();
 
-// Retornar os resultados como JSON
-header('Content-Type: application/json');
+// Retornar os dados como JSON
 echo json_encode($companies);
 ?>
