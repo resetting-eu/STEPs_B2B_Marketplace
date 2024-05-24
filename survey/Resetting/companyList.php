@@ -12,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $errorMsg = "This form is only accessible by a logged-in user";
         exit();
     }
-    $loginID = $_SESSION["LoginID"]
-    $name = $_SESSION["Name"]
+    $loginID = $_SESSION["LoginID"];
+    $name = $_SESSION["Name"];
     iscte_debug("loginID:$loginID; name:$name");
 
     // Connect to the Database
@@ -25,11 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
     // Get the companies (if any) of this loginID ==> result
-    $sql = "SELECT Company.CompanyID, CompanyName FROM Company \
-            INNER JOIN CompanyLogin INNER JOIN Login \
-            WHERE Login.LoginID = CompanyLogin.LoginID \
-                AND Company.CompanyID = CompanyLogin.CompanyID \
-                AND Login.LoginID=$loginID";
+    $sql = "SELECT Company.CompanyID, CompanyName FROM Company INNER JOIN CompanyLogin INNER JOIN Login WHERE Login.LoginID = CompanyLogin.LoginID AND Company.CompanyID = CompanyLogin.CompanyID AND Login.LoginID=$loginID";
     iscte_debug("sql:$sql");
     $result = $conn->query($sql);
     // Close the connection to the database
@@ -49,11 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
     }
     $result->free_result(); // Free result set
-
     // Return the data as an Encoded JSON text
     header('Content-Type: application/json');
     echo json_encode($companies);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -64,32 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <link rel="stylesheet" href="style.css">
     <title>Company Selection</title>
     <style>
-        /* Estilo para a dropdown editável com seta menor */
-        .custom-dropdown {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .custom-dropdown input {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 10px;
-            padding-right: 10px; /* Espaço para a seta */
-            font-size: 16px;
-        }
-
-        .custom-dropdown::after {
-            content: "\25BC"; /* Seta para baixo */
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            font-size: 10px; /* Tamanho da seta*/
-            color: black; /* Cor da seta */
-            pointer-events: none;
-        }
-
         /* Centralizar o conteúdo */
         body, html {
             height: 100%;
@@ -98,8 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             justify-content: center;
             align-items: center;
         }
-
-
 
         /* Estilos adicionais */
         h2, h3 {
@@ -111,7 +79,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <div class="border">
         <h2>Welcome, <?php echo $_SESSION['Name']; ?></h2>
         <h3>Please choose the company that you want to work with</h3>
-        <label for="company_select">Company name:</label><br>
+        <label for="company_select">Company name:</label>
+        <!-- <div class="combobox combobox-list">
+        <div class="group">
+            <input id="company_select" class="cb_edit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb1-listbox">
+            <button id="cb1-button" tabindex="-1" aria-label="States" aria-expanded="false" aria-controls="cb1-listbox">
+            <svg width="18" height="16" aria-hidden="true" focusable="false" style="forced-color-adjust: auto">
+                <polygon class="arrow" stroke-width="0" fill-opacity="0.75" fill="currentcolor" points="3,6 15,6 9,14"></polygon>
+            </svg>
+            </button>
+        </div>
+        <ul id="cb1-listbox" role="listbox" aria-label="Companies">
+            <li id="lb1-al" role="option">Alabama</li>
+            <li id="lb1-ak" role="option">Alaska</li>
+            <li id="lb1-as" role="option">American Samoa</li>
+        </ul> -->
+
         <div class="custom-dropdown">
             <input list="companies" id="company_select" name="company_select" oninput="toggleButtons()">
             <datalist id="companies"></datalist>
@@ -132,8 +115,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     var companies = JSON.parse(xhr.responseText);
                     var datalist = document.getElementById('companies');
 
+                    console.log("@DEBUG: 1")
                     // Adicionar as opções do datalist com base nos dados retornados
                     companies.forEach(function (company) {
+                        console.log("@DEBUG: 2")
                         var option = document.createElement('option');
                         option.value = company.name;
                         datalist.appendChild(option);
