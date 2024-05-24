@@ -8,14 +8,14 @@ body {
 }
 
 .border{
-    border: 1px solid #ccc; 
-    padding: 30px; 
-    margin: 0 auto; 
+    border: 1px solid #ccc;
+    padding: 30px;
+    margin: 0 auto;
     width: 500px;
-    max-width: 800px; 
+    max-width: 800px;
     background-color: #f9f9f9;
-    border-radius: 10px; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 h1 {
     text-align: center;
@@ -125,7 +125,7 @@ select {
 }
 #wasteGen3 {
     display: none;
-}   
+}
 
 button {
     background-color: #007bff;
@@ -144,8 +144,103 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Editable Combobox (from https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list) */
+.combobox-list {
+    position: relative;
+  }
 
+  .combobox .group {
+    display: inline-flex;
+    padding: 4px;
+    cursor: pointer;
+  }
 
+  .combobox input,
+  .combobox button {
+    background-color: white;
+    color: black;
+    box-sizing: border-box;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    vertical-align: bottom;
+    border: 1px solid gray;
+    position: relative;
+    cursor: pointer;
+  }
 
+  .combobox input {
+    width: 150px;
+    border-right: none;
+    outline: none;
+    font-size: 87.5%;
+    padding: 1px 3px;
+  }
 
+  .combobox button {
+    width: 19px;
+    border-left: none;
+    outline: none;
+    color: rgb(0 90 156);
+  }
 
+  .combobox button[aria-expanded="true"] svg {
+    transform: rotate(180deg) translate(0, -3px);
+  }
+
+  ul[role="listbox"] {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 4px;
+    top: 34px;
+    list-style: none;
+    background-color: white;
+    display: none;
+    box-sizing: border-box;
+    border: 2px currentcolor solid;
+    max-height: 250px;
+    width: 168px;
+    overflow: scroll;
+    overflow-x: hidden;
+    font-size: 87.5%;
+    cursor: pointer;
+  }
+
+  ul[role="listbox"] li[role="option"] {
+    margin: 0;
+    display: block;
+    padding-left: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  /* focus and hover styling */
+
+  .combobox .group.focus,
+  .combobox .group:hover {
+    padding: 2px;
+    border: 2px solid currentcolor;
+    border-radius: 4px;
+  }
+
+  .combobox .group.focus polygon,
+  .combobox .group:hover polygon {
+    fill-opacity: 1;
+  }
+
+  .combobox .group.focus input,
+  .combobox .group.focus button,
+  .combobox .group input:hover,
+  .combobox .group button:hover {
+    background-color: #def;
+  }
+
+  [role="listbox"].focus [role="option"][aria-selected="true"],
+  [role="listbox"] [role="option"]:hover {
+    background-color: #def;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: 2px solid currentcolor;
+    border-bottom: 2px solid currentcolor;
+  }

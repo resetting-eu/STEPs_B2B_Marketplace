@@ -1,40 +1,59 @@
 <?php
+include "iscte_utils.php";
+
 session_start();
-// if (!isset($_SESSION['LoginID'])){
-//     die("User needs to login");
-// }
-// Configurações de conexão com o banco de dados
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "resetting_survey_dev";
 
-// Criação da conexão
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Get the information from the HTML form's POST action
+iscte_debug("_SERVER[REQUEST_METHOD]:".$_SERVER["REQUEST_METHOD"]);
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // Ensure that to reach this page the user has registered or login successfully
+    if (!isset($_SESSION["LoginID"])) {
+        iscte_error("This form is only accessible by a logged-in user");
+        $errorMsg = "This form is only accessible by a logged-in user";
+        exit();
+    }
+    $loginID = $_SESSION["LoginID"]
+    $name = $_SESSION["Name"]
+    iscte_debug("loginID:$loginID; name:$name");
 
-// Verificação de conexão
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    // Connect to the Database
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+    if ($conn->connect_errno) {
+        iscte_error("Failed to connect to the database: ".$conn->connect_error);
+        $errorMsg = "Failed to connect to the database: ".$conn->connect_error;
+        exit();
+    }
+
+    // Get the companies (if any) of this loginID ==> result
+    $sql = "SELECT Company.CompanyID, CompanyName FROM Company \
+            INNER JOIN CompanyLogin INNER JOIN Login \
+            WHERE Login.LoginID = CompanyLogin.LoginID \
+                AND Company.CompanyID = CompanyLogin.CompanyID \
+                AND Login.LoginID=$loginID";
+    iscte_debug("sql:$sql");
+    $result = $conn->query($sql);
+    // Close the connection to the database
+    $conn->close();
+
+    $companies = [];    // Array with company IDs and names
+
+    // Check database results
+    iscte_debug("result->num_rows:$result->num_rows");
+    if ($result->num_rows > 0) {
+        // Loop all results and store them in the companies array
+        while ($row = $result->fetch_assoc()) {
+            $companies[] = [
+                "id" => $row["CompanyID"],
+                "name" => $row["CompanyName"]
+            ];
+        }
+    }
+    $result->free_result(); // Free result set
+
+    // Return the data as an Encoded JSON text
+    header('Content-Type: application/json');
+    echo json_encode($companies);
 }
-
-
-// Consulta para obter o nome do usuário
-// if (isset($_SESSION['LoginID'])) {
-//     $loginID = $_SESSION['LoginID'];
-//     $userSql = "SELECT Name FROM Login WHERE Email = '$loginID'";
-//     $userResult = $conn->query($userSql);
-
-//     if ($userResult->num_rows > 0) {
-//         $userRow = $userResult->fetch_assoc();
-//         $_SESSION['UserName'] = $userRow['Name'];
-//     }
-// }
-
-// Fechar a conexão
-$conn->close();
-
-// Retornar os dados como JSON
-echo json_encode($companies);
 ?>
 
 <!DOCTYPE html>
@@ -90,8 +109,8 @@ echo json_encode($companies);
 </head>
 <body>
     <div class="border">
-        <h2>Welcome, <?php echo isset($_SESSION['Name']) ? $_SESSION['Name'] : ; ?>!</h2>
-        <h3>Please choose the company that you want to work with!</h3>
+        <h2>Welcome, <?php echo $_SESSION['Name']; ?></h2>
+        <h3>Please choose the company that you want to work with</h3>
         <label for="company_select">Company name:</label><br>
         <div class="custom-dropdown">
             <input list="companies" id="company_select" name="company_select" oninput="toggleButtons()">

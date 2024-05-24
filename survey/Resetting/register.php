@@ -1,56 +1,78 @@
 <?php
+include "iscte_utils.php";
+
 session_start();
 
-    // Configurações do banco de dados
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "resetting_survey_dev";
+// Get the information from the HTML form's POST action
+iscte_debug("_SERVER[REQUEST_METHOD]:".$_SERVER["REQUEST_METHOD"]);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Email"])) {
+    $name = $_POST["Name"];
+    $email = $_POST["Email"];
+    $password = $_POST["Password"];
+    $description = $_POST["Description"];
+    // Hashed password (recommended for increased security)
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    iscte_debug("name:$name; email:$email; password:$password; passwordHash:$passwordHash; description:$description");
 
- // Conectar ao banco de dados
- $conn = new mysqli($servername, $username, $password, $dbname);
+    // Connect to the Database
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+    if ($conn->connect_errno) {
+        iscte_error("Failed to connect to the database: ".$conn->connect_error);
+        $errorMsg = "Failed to connect to the database: ".$conn->connect_error;
+        exit();
+    }
 
- // Verificar conexão
- if ($conn->connect_error) {
-     die("Erro na conexão: " . $conn->connect_error);
- }
+    // Check if there already is a Login element with the inserted Email ==> result
+    $sql = "SELECT * FROM Login WHERE Email = \"$email\"";
+    iscte_debug("sql:$sql");
+    $result = $conn->query($sql);
 
- // Processar o formulário de registro quando enviado
- if ($_SERVER["REQUEST_METHOD"] == "POST") {
-     $Name = $_POST["Name"];
-     $Email = $_POST["Email"];
-     $Password = $_POST["Password"];
-     $Description = $_POST["Description"];
+    // Check database results
+    iscte_debug("result->num_rows:$result->num_rows");
+    if ($result->num_rows > 0) {   // If someone else already has this e-mail, reject the insertion
+        $result->free_result(); // Free result set
+        iscte_error("A user with the inserted e-mail already exists.<BR>Please try again.");
+        $errorMsg = "A user with the inserted e-mail already exists.<BR>Please try again.";
+    } else {
+        $result->free_result(); // Free result set
+        // Insert the new user in the database
+        $sql = "INSERT INTO Login (Name, Email, Password, Description) VALUES (\"$name\", \"$email\", \"$passwordHash\", \"$description\")";
+        iscte_debug("sql:$sql");
+        if (!$conn->query($sql)) { // If operation was NOT successful
+            iscte_error("Error inserting new user in database. Please try again.");
+            $errorMsg = "Error inserting new user in database. Please try again.";
+        } else {
+            // Get Login elements with the inserted Email ==> result
+            $sql = "SELECT * FROM Login WHERE Email = \"$email\"";
+            iscte_debug("sql:$sql");
+            $result = $conn->query($sql);
+            // Close the connection to the database
+            $conn->close();
 
-     // Hash da senha (recomendado para segurança)
-     $hashed_password = password_hash($Password, PASSWORD_DEFAULT);
+            // Check database results
+            iscte_debug("result->num_rows:$result->num_rows");
+            if (1 != $result->num_rows) {   // There can be only 1 (one) entry with this email.
+                $result->free_result(); // Free result set
+                // Email not found on database
+                iscte_error("User not inserted. Please try again.");
+                $errorMsg = "User not inserted. Please try again.";
+            } else {
+                $user = $result->fetch_assoc();
+                $result->free_result(); // Free result set
+                iscte_debug("user.Email:".$user["Email"]."; user.LoginID:".$user["LoginID"]);
 
-     // Preparar e executar a inserção SQL
-     $sql = "INSERT INTO Login (Name, Email, Password, Description) VALUES ('$Name', '$Email', '$hashed_password', '$Description')";
+                // Store Login Info in session
+                $_SESSION["LoginID"] = $user["LoginID"];
+                $_SESSION["Name"] = $user["Name"];
 
-     if ($conn->query($sql) === TRUE) {
-
-         $sql = "SELECT * FROM Login WHERE Email='$Email'";
-         $result = $conn->query($sql);
-
-         // Verificar se há resultados
-         if ($result->num_rows > 0) {
-             $row = $result->fetch_assoc();
-     
-             session_start();
-             $_SESSION['LoginID'] = $row['LoginID'];
-     
-             // Registro feito com sucesso
-             header("Location: login.php");
-             exit(); // Termina o script após o redirecionamento
-         }
-     } else {
-         echo "Erro ao registrar: " . $conn->error;
-     }
- }
-
- // Fechar conexão com o banco de dados
- $conn->close();
+                // If credentials are OK, jump to next page
+                // iscte_debugAndExit("Jumping to companyList.php");    // Debug info if required
+                header("Location: companyList.php");
+                exit();
+            }
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +81,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Register Resetting</title>
+    <title>Resetting</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -115,18 +137,20 @@ session_start();
     </style>
 </head>
 <body>
-    <form action="register.php" method="post">
+    <form method="post">
         <div class="border">
-            <h2>Register</h2>
+            <div style="color: red"><?php echo $errorMsg ?></div>
+            <h2>Register user in Resetting</h2>
             <label for="Name">Name:</label>
             <input type="text" id="Name" name="Name" required><br><br>
             <label for="Email">Email:</label>
             <input type="email" id="Email" name="Email" required><br><br>
             <label for="Password">Password:</label>
             <input type="password" id="Password" name="Password" required><br><br>
-            <label for="Description">Please provide a brief description of the organization's business and offer:</label>
-            <textarea id="Description" name="Description" rows="4" cols="50"></textarea><br><br>
-            <button type="submit" value="Submit">Submit</button>
+            <label for="Description">Any comments on the user:</label>
+            <textarea id="Description" name="Description" rows="4" cols="50"></textarea>
+            <br><br>
+            <button type="submit">Submit</button>
         </div>
     </form>
 </body>
