@@ -170,7 +170,7 @@ button:hover {
   }
 
   .combobox input {
-    width: 150px;
+    width: 300px;
     border-right: none;
     outline: none;
     font-size: 87.5%;
@@ -200,7 +200,7 @@ button:hover {
     box-sizing: border-box;
     border: 2px currentcolor solid;
     max-height: 250px;
-    width: 168px;
+    width: 318px;
     overflow: scroll;
     overflow-x: hidden;
     font-size: 87.5%;
