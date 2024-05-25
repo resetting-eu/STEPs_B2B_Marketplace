@@ -139,6 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         // Função para lidar com o botão "Create"
         function createCompany() {
+
             window.location.href = 'company.html';
         }
 
