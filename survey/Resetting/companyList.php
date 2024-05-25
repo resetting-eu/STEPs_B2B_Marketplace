@@ -71,11 +71,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 <body>
     <div class="border">
         <h2>Welcome, <?php echo $_SESSION['Name']; ?></h2>
-        <h3>Please select the company you want to work with.</h3>
+        <h3>Please select the company you want to edit.</h3>
         <label for="company_select">Company name:</label>
         <div class="combobox combobox-list">
             <div class="group">
-                <input id="company_select" class="cb_edit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb1-listbox">
+                <input id="company_select" class="cb_edit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb1-listbox" oninput="toggleButtons()">
                 <button id="cb1-button" tabindex="-1" aria-label="States" aria-expanded="false" aria-controls="cb1-listbox">
                 <svg width="18" height="16" aria-hidden="true" focusable="false" style="forced-color-adjust: auto">
                     <polygon class="arrow" stroke-width="0" fill-opacity="0.75" fill="currentcolor" points="3,6 15,6 9,14"></polygon>
@@ -144,6 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         // Função para mostrar/ocultar botões baseado na seleção
         function toggleButtons() {
+            alert("1");
             var companyName = document.getElementById('company_select').value;
             var editButton = document.getElementById('edit_button');
             var createButton = document.getElementById('create_company');
