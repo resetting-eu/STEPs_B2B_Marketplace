@@ -32,7 +32,7 @@ function populateCompaniesCombo($loginID) {
 
 // Get the information from the HTML form's POST action
 iscte_debug("_SERVER[REQUEST_METHOD]:".$_SERVER["REQUEST_METHOD"]);
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+if ("GET" == $_SERVER["REQUEST_METHOD"]) {
     // Ensure that to reach this page the user has registered or login successfully
     if (!isset($_SESSION["LoginID"])) {
         iscte_error("This form is only accessible by a logged-in user");
@@ -42,6 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $loginID = $_SESSION["LoginID"];
     $name = $_SESSION["Name"];
     iscte_debug("loginID:$loginID; name:$name");
+} else if ("GET" == $_SERVER["REQUEST_METHOD"]) {
+
 }
 ?>
 
@@ -69,97 +71,80 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     </style>
 </head>
 <body>
-    <div class="border">
-        <h2>Welcome, <?php echo $_SESSION['Name']; ?></h2>
-        <h3>Please select the company you want to edit.</h3>
-        <label for="company_select">Company name:</label>
-        <div class="combobox combobox-list">
-            <div class="group">
-                <input id="company_select" class="cb_edit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb1-listbox" oninput="toggleButtons()">
-                <button id="cb1-button" tabindex="-1" aria-label="States" aria-expanded="false" aria-controls="cb1-listbox">
-                <svg width="18" height="16" aria-hidden="true" focusable="false" style="forced-color-adjust: auto">
-                    <polygon class="arrow" stroke-width="0" fill-opacity="0.75" fill="currentcolor" points="3,6 15,6 9,14"></polygon>
-                </svg>
-                </button>
-            </div>
-            <ul id="cb1-listbox" role="listbox" aria-label="Companies">
-                <?php populateCompaniesCombo($loginID); ?>
-            </ul>
-        </div>
-        <br><br>
-        <button id="edit_button" onclick="editCompany()" style="display:none;">Edit Company</button>
-        <button id="create_company" onclick="createCompany()">Create a New Company</button>
-    </div>
+<script type="text/javascript" src="scripts/editable-combobox.js"></script>
+<script>
+        // // Função para lidar com o botão "Edit"
+        // function editCompany() {
+        //     var companyName = document.getElementById('company_select').value;
+        //     // Verificar se o nome da companhia está na lista
+        //     var datalistOptions = Array.from(document.getElementById('companies').options);
+        //     var isValidCompany = datalistOptions.some(option => option.value === companyName);
 
-    <script type="text/javascript" src="scripts/editable-combobox.js"></script>
-    <script>
-        // // Função para carregar as companhias no datalist usando AJAX
-        // function loadCompanies() {
-        //     var xhr = new XMLHttpRequest();
-        //     xhr.open('GET', 'companyList.php', true);
-
-        //     xhr.onload = function () {
-        //         if (xhr.status == 200) {
-        //             var companies = JSON.parse(xhr.responseText);
-        //             var datalist = document.getElementById('companies');
-
-        //             console.log("@DEBUG: 1")
-        //             // Adicionar as opções do datalist com base nos dados retornados
-        //             companies.forEach(function (company) {
-        //                 console.log("@DEBUG: 2")
-        //                 var option = document.createElement('option');
-        //                 option.value = company.name;
-        //                 datalist.appendChild(option);
-        //             });
-        //         } else {
-        //             console.error('Failed to load companies.');
-        //         }
-        //     };
-
-        //     xhr.send();
+        //     if (isValidCompany) {
+        //         // Redirecionar para a página de edição com o nome da companhia selecionada
+        //         window.location.href = 'company.html?name=' + encodeURIComponent(companyName);
+        //     } else {
+        //         alert('Please select a valid company from the list.');
+        //     }
         // }
 
-        // // Chamada para carregar as companhias ao carregar a página
-        // loadCompanies();
+        // // Função para lidar com o botão "Create"
+        // function createCompany() {
 
-        // Função para lidar com o botão "Edit"
-        function editCompany() {
-            var companyName = document.getElementById('company_select').value;
-            // Verificar se o nome da companhia está na lista
-            var datalistOptions = Array.from(document.getElementById('companies').options);
-            var isValidCompany = datalistOptions.some(option => option.value === companyName);
-
-            if (isValidCompany) {
-                // Redirecionar para a página de edição com o nome da companhia selecionada
-                window.location.href = 'company.html?name=' + encodeURIComponent(companyName);
-            } else {
-                alert('Please select a valid company from the list.');
-            }
-        }
-
-        // Função para lidar com o botão "Create"
-        function createCompany() {
-
-            window.location.href = 'company.html';
-        }
+        //     window.location.href = 'company.html';
+        // }
 
         // Função para mostrar/ocultar botões baseado na seleção
         function toggleButtons() {
-            alert("1");
-            var companyName = document.getElementById('company_select').value;
-            var editButton = document.getElementById('edit_button');
-            var createButton = document.getElementById('create_company');
-            var datalistOptions = Array.from(document.getElementById('companies').options);
-            var isValidCompany = datalistOptions.some(option => option.value === companyName);
-
-            if (isValidCompany) {
-                editButton.style.display = 'inline-block'; // Mostrar o botão Edit
-                createButton.style.display = 'none'; // Ocultar o botão Create
+            let combobox = document.getElementById("company_select");
+            var companyName = combobox.value;
+            console.log("@DEBUG: [textoCombo:" + companyName + "]");
+            let optionList = document.getElementById('cb1-listbox').getElementsByTagName('LI');
+            var editExistingCompany = false;
+            for (let i = 0; i < optionList.length; i++) {
+                console.log("@DEBUG: [id:" + optionList[i].id + "; Text:" + optionList[i].innerText + "]");
+                if (companyName.toLowerCase() == optionList[i].innerText.toLowerCase()) {
+                    editExistingCompany = true;
+                    break;
+                }
+            }
+            let button = document.getElementById("create-button");
+            if (editExistingCompany) {
+                button.innerText = "Edit existing company";
+                button.style.background = "Green";
+            } else if ("" == companyName.trim()) {
+                button.innerText = "Select company / Create new company";
+                button.style.background = "Darkgray";
             } else {
-                editButton.style.display = 'none'; // Ocultar o botão Edit
-                createButton.style.display = 'inline-block'; // Mostrar o botão Create
+                button.innerText = "Create new company";
+                button.style.background = "Blue";
             }
         }
     </script>
+
+    <form method="post">
+        <div class="border">
+            <div style="color: red"><?php echo $errorMsg ?></div>
+            <h2>Welcome, <?php echo $_SESSION['Name']; ?></h2>
+            <h3>Please select the company you want to edit.</h3>
+            <label for="company_select">Company name:</label>
+            <div class="combobox combobox-list">
+                <div class="group">
+                    <input id="company_select" class="cb_edit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb1-listbox" oninput="toggleButtons()">
+                    <button id="cb1-button" tabindex="-1" aria-label="Companies" aria-expanded="false" aria-controls="cb1-listbox">
+                    <svg width="18" height="16" aria-hidden="true" focusable="false" style="forced-color-adjust: auto">
+                        <polygon class="arrow" stroke-width="0" fill-opacity="0.75" fill="currentcolor" points="3,6 15,6 9,14"></polygon>
+                    </svg>
+                    </button>
+                </div>
+                <ul id="cb1-listbox" role="listbox" aria-label="Companies">
+                    <?php populateCompaniesCombo($loginID); ?>
+                </ul>
+            </div>
+            <br><br>
+            <button id="create-button" type="submit" style="background: Darkgray";>Select Company / Create New Company</button>
+        </div>
+    </form>
+
 </body>
 </html>
