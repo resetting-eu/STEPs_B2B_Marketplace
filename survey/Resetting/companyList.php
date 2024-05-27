@@ -4,34 +4,40 @@ include "iscte_utils.php";
 session_start();
 iscte_debugSessionFields();
 
+/**
+ * @brief called by the combobox init, this populates the cb1-listbox with the Empresas connected with this LoginID
+ */
 function populateCompaniesCombo() {
     $loginID = $_SESSION["LoginID"];
+
     // Connect to the Database
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
-    if ($conn->connect_errno) {
-        iscte_error("Failed to connect to the database: ".$conn->connect_error);
-        $errorMsg = "Failed to connect to the database: ".$conn->connect_error;
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+    if ($mysqli->connect_errno) {
+        iscte_error("Failed to connect to the database: ".$mysqli->connect_error);
+        $errorMsg = "Failed to connect to the database: ".$mysqli->connect_error;
         exit();
     }
+    /**
+     * Get the Companies (if any) connected to this loginID ==> dbResult
+     */
+    $dbSQL = "SELECT Company.CompanyID, CompanyName FROM Company INNER JOIN CompanyLogin INNER JOIN Login WHERE Login.LoginID = CompanyLogin.LoginID AND Company.CompanyID = CompanyLogin.CompanyID AND Login.LoginID=$loginID ORDER BY CompanyName";
+    iscte_debug("dbSQL:$dbSQL");
+    $dbResult = $mysqli->query($dbSQL);
+    $mysqli->close();   // Close the connection to the database
 
     /**
-     * Get the companies (if any) of this loginID ==> result
+     * Check dbResult num_rows:
+     * * =0: (OK) No Companies related to this LoginID
+     * * >0: (OK) One or more Companies related to this LoginID
      */
-    $sql = "SELECT Company.CompanyID, CompanyName FROM Company INNER JOIN CompanyLogin INNER JOIN Login WHERE Login.LoginID = CompanyLogin.LoginID AND Company.CompanyID = CompanyLogin.CompanyID AND Login.LoginID=$loginID ORDER BY CompanyName";
-    iscte_debug("sql:$sql");
-    $result = $conn->query($sql);
-    // Close the connection to the database
-    $conn->close();
-
-    // Check database results
-    iscte_debug("result->num_rows:$result->num_rows");
-    if ($result->num_rows > 0) {
-        // Loop all results and create the combobox options
-        while ($row = $result->fetch_assoc()) {
+    iscte_debug("dbResult->num_rows:$dbResult->num_rows");
+    if ($dbResult->num_rows > 0) {
+        // Loop all dbResults and create the combobox options
+        while ($row = $dbResult->fetch_assoc()) {
             echo '<li id="'.$row["CompanyID"].'" role="option">'.$row["CompanyName"].'</li>';
         }
     }
-    $result->free_result(); // Free result set
+    $dbResult->free_result(); // Free dbResult set
 }
 
 $loginID = $_SESSION["LoginID"];
@@ -59,63 +65,63 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
     $companyName = $_POST["CompanyName"];
 
     // Connect to the Database
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
-    if ($conn->connect_errno) {
-        iscte_error("Failed to connect to the database: ".$conn->connect_error);
-        $errorMsg = "Failed to connect to the database: ".$conn->connect_error;
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+    if ($mysqli->connect_errno) {
+        iscte_error("Failed to connect to the database: ".$mysqli->connect_error);
+        $errorMsg = "Failed to connect to the database: ".$mysqli->connect_error;
         exit();
     }
 
     /**
-     * Do a first query: Get the companies (if any) with this CompanyName ==> result. This tells us if:
+     * Do a first query: Get the companies (if any) with this CompanyName ==> dbResult. This tells us if:
      *  - 1) The selected CompanyName is already exists on the database (OK?).
      *  - 2) The selected CompanyName is new (OK).
      */
-    $sql = "SELECT * FROM Company WHERE CompanyName = $companyName"; iscte_debug("sql:$sql");
-    $result = $conn->query($sql);
-    $conn->close(); // Close the connection to the database
+    $dbSQL = "SELECT * FROM Company WHERE CompanyName = $companyName"; iscte_debug("dbSQL:$dbSQL");
+    $dbResult = $mysqli->query($dbSQL);
+    $mysqli->close(); // Close the connection to the database
 
     /**
-     * Check database results:
+     * Check database dbResults:
      *  - If there is (at least) one row (it should be at most only one), this means we are on case 1) The selected CompanyName is already exists on the database.
      *  - If there are no rows, this means we are on case 2) The selected CompanyName is new.
      */
-    iscte_debug("result->num_rows:$result->num_rows");
-    if ($result->num_rows > 0) {
+    iscte_debug("dbResult->num_rows:$dbResult->num_rows");
+    if ($dbResult->num_rows > 0) {
         /**
          * 1) The selected CompanyName is already exists on the database? This can happen if:
          *  - 1.1) The user is editing HIS company (OK).
          *  - 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
-        $row = $result->fetch_assoc();
+        $row = $dbResult->fetch_assoc();
         $companyID = $_SESSION["CompanyID"] = $row["CompanyID"]; iscte_debug("companyID:$companyID");
-        $result->free_result(); // Free result set
+        $dbResult->free_result(); // Free dbResult set
 
         /**
-         * Do a second query: Get the CompanyLogin (if any) with this CompanyID AND with this LoginID ==> result. This tells us if:
+         * Do a second query: Get the CompanyLogin (if any) with this CompanyID AND with this LoginID ==> dbResult. This tells us if:
          *  - If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
          *  - If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
-        $sql = "SELECT * FROM CompanyLogin WHERE CompanyID = $companyID AND LoginID = $loginID"; iscte_debug("sql:$sql");
-        $result = $conn->query($sql);
-        $conn->close(); // Close the connection to the database
+        $dbSQL = "SELECT * FROM CompanyLogin WHERE CompanyID = $companyID AND LoginID = $loginID"; iscte_debug("dbSQL:$dbSQL");
+        $dbResult = $mysqli->query($dbSQL);
+        $mysqli->close(); // Close the connection to the database
 
         /**
-         * Check database results:
+         * Check database dbResults:
          *  - If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
          *  - If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
-        iscte_debug("result->num_rows:$result->num_rows");
-        if (1 == $result->num_rows) {
+        iscte_debug("dbResult->num_rows:$dbResult->num_rows");
+        if (1 == $dbResult->num_rows) {
             /**
              * 1.1) The user is editing HIS company (OK): Proceed to Edit the company with CompanyID.
              */
-            $result->free_result(); // Free result set
+            $dbResult->free_result(); // Free dbResult set
         } else {
             /**
              * 1.2) The user is inserting a NEW company with a name which already exists (NOK): State Error and return to the form.
              */
-            $result->free_result(); // Free result set
+            $dbResult->free_result(); // Free dbResult set
             iscte_error("The selected Company Name is already in use. Please try again.");
             $errorMsg = "The selected Company Name is already in use. Please try again.";
             exit();
@@ -128,7 +134,7 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
          *  - 2.3) Create a new CompanyLogin with the CompanyID and the LoginID.
          *  - 2.4) Proceed to Edit the company with CompanyID.
          */
-        $result->free_result(); // Free result set
+        $dbResult->free_result(); // Free dbResult set
 
 
 
@@ -136,7 +142,7 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
     /**
      * 2.4) Proceed to Edit the company with CompanyID.
      */
-    iscte_debugAndExit("Jumping to company.php");    // Debug info if required
+    iscte_debugAndExit("Jumping to company.php");    // @DEBUG: If you need debug info BEFORE jumping to the next page, uncomment this statement
     header("Location: company.php");
     exit();
 }

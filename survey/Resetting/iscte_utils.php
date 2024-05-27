@@ -42,43 +42,43 @@ function iscte_debugAndExit ($msg) {
 }
 
 /**
+ * @brief Prints all fields of an associative array
+ * @param assocArray the associative array
+ * @param assocArrayName the name of the associative array (for debug purposes)
+ */
+function iscte_debugAssocArrayFields ($assocArray, $assocArrayName) {
+    iscte_debug("Stt Printing: $assocArrayName: [ key => value ]");
+    foreach($assocArray as $key => $value)
+        iscte_debug("$assocArrayName: [ $key => $value ]");
+    iscte_debug("End Printing: $assocArrayName: [ key => value ]");
+}
+
+/**
  * @brief Prints all $_SESSION fields on the current page.
  */
 function iscte_debugSessionFields () {
-    iscte_debug("Start Printing _SESSION variables");
-    foreach($_SESSION as $key => $value)
-        iscte_debug("_SESSION key:$key; value:$value");
-    iscte_debug("End Printing _SESSION variables");
+    iscte_debugAssocArrayFields($_SESSION, "_SESSION");
 }
 
 /**
  * @brief Prints all $_POST fields on the current page.
  */
 function iscte_debugPostFields () {
-    iscte_debug("Start Printing _POST variables");
-    foreach($_POST as $key => $value)
-        iscte_debug("_POST key:$key; value:$value");
-    iscte_debug("End Printing _POST variables");
+    iscte_debugAssocArrayFields($_POST, "_POST");
 }
 
 /**
  * @brief Prints all $_GET fields on the current page.
  */
 function iscte_debugGetFields () {
-    iscte_debug("Start Printing _GET variables");
-    foreach($_GET as $key => $value)
-        iscte_debug("_GET key:$key; value:$value");
-    iscte_debug("End Printing _GET variables");
+    iscte_debugAssocArrayFields($_GET, "_GET");
 }
 
 /**
  * @brief Prints all $_SERVER fields on the current page.
  */
 function iscte_debugServerFields () {
-    iscte_debug("Start Printing _SERVER variables");
-    foreach($_SERVER as $key => $value)
-        iscte_debug("_SERVER key:$key; value:$value");
-    iscte_debug("End Printing _SERVER variables");
+    iscte_debugAssocArrayFields($_SERVER, "_SERVER");
 }
 
 /**

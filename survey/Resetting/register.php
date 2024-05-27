@@ -2,69 +2,90 @@
 include "iscte_utils.php";
 
 session_start();
+// session_destroy(); session_start();  // @DEBUG: If you wish to clear all PHP session variables, uncomment this statement
 iscte_debugSessionFields();
 
 // Get the information from the HTML form's POST action
 iscte_debug("_SERVER[REQUEST_METHOD]:".$_SERVER["REQUEST_METHOD"]);
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Email"])) {
-    $name = $_POST["Name"];
-    $email = $_POST["Email"];
-    $password = $_POST["Password"];
-    $description = $_POST["Description"];
+    iscte_debugPostFields();
+    $name = $_POST["Name"]; iscte_debug("name:$name");
+    $email = $_POST["Email"]; iscte_debug("email:$email");
+    $password = $_POST["Password"]; iscte_debug("password:$password");
+    $description = $_POST["Description"]; iscte_debug("description:$description");
     // Hashed password (recommended for increased security)
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-    iscte_debug("name:$name; email:$email; password:$password; passwordHash:$passwordHash; description:$description");
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT); iscte_debug("passwordHash:$passwordHash");
 
     // Connect to the Database
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
-    if ($conn->connect_errno) {
-        iscte_error("Failed to connect to the database: ".$conn->connect_error);
-        $errorMsg = "Failed to connect to the database: ".$conn->connect_error;
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+    if ($mysqli->connect_errno) {
+        iscte_error("Failed to connect to the database: ".$mysqli->connect_error);
+        $errorMsg = "Failed to connect to the database: ".$mysqli->connect_error;
         exit();
     }
 
-    // Check if there already is a Login element with the inserted Email ==> result
-    $sql = "SELECT * FROM Login WHERE Email = \"$email\""; iscte_debug("sql:$sql");
-    $result = $conn->query($sql);
+    /**
+     * Get all Login elements with the inserted Email ==> dbResult
+     */
+    $dbSQL = "SELECT * FROM Login WHERE Email = \"$email\""; iscte_debug("dbSQL:$dbSQL");
+    $dbResult = $mysqli->query($dbSQL);
 
-    // Check database results
-    iscte_debug("result->num_rows:$result->num_rows");
-    if ($result->num_rows > 0) {   // If someone else already has this e-mail, reject the insertion
-        $result->free_result(); // Free result set
+    /**
+     * Check dbResult num_rows:
+     * * =0: (OK) Not found
+     * * >0: (NOK) There is already another user with the same email
+     */
+    iscte_debug("dbResult->num_rows:$dbResult->num_rows");
+    if ($dbResult->num_rows > 0) {
+        $dbResult->free_result(); // Free dbResult set
+        // * >0: (NOK) There is already another user with the same email
         iscte_error("A user with the inserted e-mail already exists.<BR>Please try again.");
         $errorMsg = "A user with the inserted e-mail already exists.<BR>Please try again.";
     } else {
-        $result->free_result(); // Free result set
-        // Insert the new user in the database
-        $sql = "INSERT INTO Login (Name, Email, Password, Description) VALUES (\"$name\", \"$email\", \"$passwordHash\", \"$description\")"; iscte_debug("sql:$sql");
-        if (!$conn->query($sql)) { // If operation was NOT successful
+        $dbResult->free_result(); // Free dbResult set
+        // * =0: (OK) Not found
+
+        /**
+         * Insert the new user in the database
+         */
+        $dbSQL = "INSERT INTO Login (Name, Email, Password, Description) VALUES (\"$name\", \"$email\", \"$passwordHash\", \"$description\")"; iscte_debug("dbSQL:$dbSQL");
+        if (!$mysqli->query($dbSQL)) { // If operation was NOT successful
             iscte_error("Error inserting new user in database. Please try again.");
             $errorMsg = "Error inserting new user in database. Please try again.";
         } else {
-            // Get Login elements with the inserted Email ==> result
-            $sql = "SELECT * FROM Login WHERE Email = \"$email\"";
-            iscte_debug("sql:$sql");
-            $result = $conn->query($sql);
-            $conn->close(); // Close the connection to the database
+            /**
+             * Get the generated LoginID of the element that was inserted ==> dbResult
+             */
+            $dbSQL = "SELECT * FROM Login WHERE Email = \"$email\""; iscte_debug("dbSQL:$dbSQL");
+            $dbResult = $mysqli->query($dbSQL);
+            $mysqli->close(); // Close the connection to the database
 
-            // Check database results
-            iscte_debug("result->num_rows:$result->num_rows");
-            if (1 != $result->num_rows) {   // There can be only 1 (one) entry with this email.
-                $result->free_result(); // Free result set
-                // Email not found on database
+            /**
+             * Check dbResult num_rows:
+             * * =0: (NOK) Not found
+             * * =1: (OK) It should return only 1 (one) row
+             * * >1: (NOK) There can only be one user with the same email
+             */
+            iscte_debug("dbResult->num_rows:$dbResult->num_rows");
+            if (1 != $dbResult->num_rows) {
+                $dbResult->free_result(); // Free dbResult set
+                // * =0: (NOK) Not found
+                // * >1: (NOK) There can only be one user with the same email
                 iscte_error("User not inserted. Please try again.");
                 $errorMsg = "User not inserted. Please try again.";
             } else {
-                $user = $result->fetch_assoc();
-                $result->free_result(); // Free result set
+                // * =1: (OK) It should return only 1 (one) row
+                $user = $dbResult->fetch_assoc();
+                $dbResult->free_result(); // Free dbResult set
                 iscte_debug("user.Email:".$user["Email"]."; user.LoginID:".$user["LoginID"]);
 
                 // Store Login Info in session
                 $_SESSION["LoginID"] = $user["LoginID"];
                 $_SESSION["Name"] = $user["Name"];
+                iscte_debugSessionFields();
 
                 // If credentials are OK, jump to next page
-                // iscte_debugAndExit("Jumping to companyList.php");    // Debug info if required
+                // iscte_debugAndExit("Jumping to companyList.php");    // @DEBUG: If you need debug info BEFORE jumping to the next page, uncomment this statement
                 header("Location: companyList.php");
                 exit();
             }
