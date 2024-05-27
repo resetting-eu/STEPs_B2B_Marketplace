@@ -10,7 +10,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"] && isset($_POST["Email"])) {
     iscte_debugPostFields();
     $email = $_POST["Email"];
     $password = $_POST["Password"];
-    iscte_debug("email:$email; password:$password");
+    iscte_debugSessionFields();
 
     // Connect to the Database
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
@@ -20,16 +20,16 @@ if ("POST" == $_SERVER["REQUEST_METHOD"] && isset($_POST["Email"])) {
         exit();
     }
 
-    // Get Login elements with the inserted Email ==> result
-    $sql = "SELECT * FROM Login WHERE Email = \"$email\"";
-    iscte_debug("sql:$sql");
+    /**
+     * Get Login elements with the inserted Email ==> result
+     */
+    $sql = "SELECT * FROM Login WHERE Email = \"$email\""; iscte_debug("sql:$sql");
     $result = $conn->query($sql);
-    // Close the connection to the database
-    $conn->close();
+    $conn->close(); // Close the connection to the database
 
     // Check database results
     iscte_debug("result->num_rows:$result->num_rows");
-    if (1 != $result->num_rows) {   // There can be only 1 (one) entry with this email.
+    if (1 != $result->num_rows) {   // There can be only 1 (one) entry with this email
         $result->free_result(); // Free result set
         // Email not found on database
         iscte_error("User not found. Please try again.");
@@ -68,7 +68,7 @@ if ("POST" == $_SERVER["REQUEST_METHOD"] && isset($_POST["Email"])) {
 <body>
     <form method="post">
         <div class="border">
-            <div style="color: red"><?php echo $errorMsg ?></div>
+            <div style="color: red">Error: <?php echo $errorMsg ?></div>
             <h2>Resetting Login</h2>
             <label for="Email">Email:</label>
             <input type="email" id="Email" name="Email" required>

@@ -24,8 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Email"])) {
     }
 
     // Check if there already is a Login element with the inserted Email ==> result
-    $sql = "SELECT * FROM Login WHERE Email = \"$email\"";
-    iscte_debug("sql:$sql");
+    $sql = "SELECT * FROM Login WHERE Email = \"$email\""; iscte_debug("sql:$sql");
     $result = $conn->query($sql);
 
     // Check database results
@@ -37,8 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Email"])) {
     } else {
         $result->free_result(); // Free result set
         // Insert the new user in the database
-        $sql = "INSERT INTO Login (Name, Email, Password, Description) VALUES (\"$name\", \"$email\", \"$passwordHash\", \"$description\")";
-        iscte_debug("sql:$sql");
+        $sql = "INSERT INTO Login (Name, Email, Password, Description) VALUES (\"$name\", \"$email\", \"$passwordHash\", \"$description\")"; iscte_debug("sql:$sql");
         if (!$conn->query($sql)) { // If operation was NOT successful
             iscte_error("Error inserting new user in database. Please try again.");
             $errorMsg = "Error inserting new user in database. Please try again.";
@@ -47,8 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Email"])) {
             $sql = "SELECT * FROM Login WHERE Email = \"$email\"";
             iscte_debug("sql:$sql");
             $result = $conn->query($sql);
-            // Close the connection to the database
-            $conn->close();
+            $conn->close(); // Close the connection to the database
 
             // Check database results
             iscte_debug("result->num_rows:$result->num_rows");

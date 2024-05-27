@@ -68,14 +68,12 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
 
     /**
      * Do a first query: Get the companies (if any) with this CompanyName ==> result. This tells us if:
-     *  - 1) The selected CompanyName is already exists on the database, or
-     *  - 2) The selected CompanyName is new.
+     *  - 1) The selected CompanyName is already exists on the database (OK?).
+     *  - 2) The selected CompanyName is new (OK).
      */
-    $sql = "SELECT * FROM Company WHERE CompanyName = $companyName";
-    iscte_debug("sql:$sql");
+    $sql = "SELECT * FROM Company WHERE CompanyName = $companyName"; iscte_debug("sql:$sql");
     $result = $conn->query($sql);
-    // Close the connection to the database
-    $conn->close();
+    $conn->close(); // Close the connection to the database
 
     /**
      * Check database results:
@@ -86,37 +84,33 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
     if ($result->num_rows > 0) {
         /**
          * 1) The selected CompanyName is already exists on the database? This can happen if:
-         *  - 1.1) The user is editing HIS company.
-         *  - 1.2) The user is inserting a NEW company with a name which already exists.
+         *  - 1.1) The user is editing HIS company (OK).
+         *  - 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
+        $row = $result->fetch_assoc();
+        $companyID = $_SESSION["CompanyID"] = $row["CompanyID"]; iscte_debug("companyID:$companyID");
         $result->free_result(); // Free result set
 
         /**
-         * Do a second query: Get the companies (if any) with this CompanyName AND with this LoginID ==> result. This tells us if:
-         *  - 1.1) The user is editing HIS company
-         *  - 1.2) The user is inserting a NEW company with a name which already exists.
+         * Do a second query: Get the CompanyLogin (if any) with this CompanyID AND with this LoginID ==> result. This tells us if:
+         *  - If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
+         *  - If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
-        $sql = "SELECT Company.CompanyID FROM Company INNER JOIN CompanyLogin INNER JOIN Login WHERE Login.LoginID = CompanyLogin.LoginID AND Company.CompanyID = CompanyLogin.CompanyID AND Company.CompanyName = $companyName AND Login.LoginID = $loginID";
-        iscte_debug("sql:$sql");
+        $sql = "SELECT * FROM CompanyLogin WHERE CompanyID = $companyID AND LoginID = $loginID"; iscte_debug("sql:$sql");
         $result = $conn->query($sql);
-        // Close the connection to the database
-        $conn->close();
+        $conn->close(); // Close the connection to the database
 
         /**
          * Check database results:
-         *  - If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company.
-         *  - If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name which already exists.
+         *  - If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
+         *  - If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
         iscte_debug("result->num_rows:$result->num_rows");
         if (1 == $result->num_rows) {
             /**
-             * 1.1) The user is editing HIS company (OK): Do the following actions:
-             *  - 1.1.1) Store CompanyID in the session.
-             *  - 1.1.2) Proceed to Edit the company with CompanyID.
+             * 1.1) The user is editing HIS company (OK): Proceed to Edit the company with CompanyID.
              */
-            $row = $result->fetch_assoc();
             $result->free_result(); // Free result set
-            $_SESSION["CompanyID"] = $row["CompanyID"];
         } else {
             /**
              * 1.2) The user is inserting a NEW company with a name which already exists (NOK): State Error and return to the form.
@@ -128,7 +122,7 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
         }
     } else {
         /**
-         * 2) The selected CompanyName is new (OK): Do the following actions:
+         * 2) The selected CompanyName is new (OK). Do the following actions:
          *  - 2.1) Create a new Company with this CompanyName.
          *  - 2.2) Get the CompanyID of the new Company (fill in session).
          *  - 2.3) Create a new CompanyLogin with the CompanyID and the LoginID.
@@ -136,23 +130,15 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
          */
         $result->free_result(); // Free result set
 
-    }
-    // Get the companies (if any) of this loginID ==> result
-    $sql = "SELECT Login.LoginID, Company.CompanyID FROM Company INNER JOIN CompanyLogin INNER JOIN Login WHERE Login.LoginID = CompanyLogin.LoginID AND Company.CompanyID = CompanyLogin.CompanyID AND Company.CompanyName = $companyName";
-    iscte_debug("sql:$sql");
-    $result = $conn->query($sql);
-    // Close the connection to the database
-    $conn->close();
 
-    // Check database results
-    iscte_debug("result->num_rows:$result->num_rows");
-    if ($result->num_rows > 0) {    // CompanyName already exists in the database?
-        // Loop all results, searching for my LoginID as
-        while ($row = $result->fetch_assoc()) {
-            echo '<li id="'.$row["CompanyID"].'" role="option">'.$row["CompanyName"].'</li>';
-        }
+
     }
-    $result->free_result(); // Free result set
+    /**
+     * 2.4) Proceed to Edit the company with CompanyID.
+     */
+    iscte_debugAndExit("Jumping to company.php");    // Debug info if required
+    header("Location: company.php");
+    exit();
 }
 ?>
 
@@ -223,7 +209,8 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
     <form method="post" onsubmit="javascript: return updateValue();">
         <div class="border">
             <div style="color: red"><?php echo $errorMsg ?></div>
-            <h2>Resetting Login</h2>
+            <h2>Welcome, <?php echo $_SESSION['Name']; ?></h2>
+            <h3>Please select the company you want to edit.</h3>
             <input type="hidden" id="CompanyName" name="CompanyName">
             <label for="company_select">Company name:</label>
             <div class="combobox combobox-list">
