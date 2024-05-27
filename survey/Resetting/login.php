@@ -2,10 +2,12 @@
 include "iscte_utils.php";
 
 session_start();
+iscte_debugSessionFields();
 
 // Get the information from the HTML form's POST action
 iscte_debug("_SERVER[REQUEST_METHOD]:".$_SERVER["REQUEST_METHOD"]);
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Email"])) {
+if ("POST" == $_SERVER["REQUEST_METHOD"] && isset($_POST["Email"])) {
+    iscte_debugPostFields();
     $email = $_POST["Email"];
     $password = $_POST["Password"];
     iscte_debug("email:$email; password:$password");

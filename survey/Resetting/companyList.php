@@ -2,8 +2,10 @@
 include "iscte_utils.php";
 
 session_start();
+iscte_debugSessionFields();
 
-function populateCompaniesCombo($loginID) {
+function populateCompaniesCombo() {
+    $loginID = $_SESSION["LoginID"];
     // Connect to the Database
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
     if ($conn->connect_errno) {
@@ -30,6 +32,7 @@ function populateCompaniesCombo($loginID) {
     $result->free_result(); // Free result set
 }
 
+$loginID = $_SESSION["LoginID"];
 // Get the information from the HTML form's POST action
 iscte_debug("_SERVER[REQUEST_METHOD]:".$_SERVER["REQUEST_METHOD"]);
 if ("GET" == $_SERVER["REQUEST_METHOD"]) {
@@ -39,11 +42,36 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
         $errorMsg = "This form is only accessible by a logged-in user";
         exit();
     }
-    $loginID = $_SESSION["LoginID"];
     $name = $_SESSION["Name"];
     iscte_debug("loginID:$loginID; name:$name");
-} else if ("GET" == $_SERVER["REQUEST_METHOD"]) {
+} else if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+    iscte_debugPostFields();
+    $companyName = $_POST["companyName"];
 
+    // Connect to the Database
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+    if ($conn->connect_errno) {
+        iscte_error("Failed to connect to the database: ".$conn->connect_error);
+        $errorMsg = "Failed to connect to the database: ".$conn->connect_error;
+        exit();
+    }
+
+    // Get the companies (if any) of this loginID ==> result
+    $sql = "SELECT Login.LoginID, Company.CompanyID FROM Company INNER JOIN CompanyLogin INNER JOIN Login WHERE Login.LoginID = CompanyLogin.LoginID AND Company.CompanyID = CompanyLogin.CompanyID AND Company.CompanyName = $companyName";
+    iscte_debug("sql:$sql");
+    $result = $conn->query($sql);
+    // Close the connection to the database
+    $conn->close();
+
+    // Check database results
+    iscte_debug("result->num_rows:$result->num_rows");
+    if ($result->num_rows > 0) {    // companyName already exists in the database?
+        // Loop all results, searching for my LoginID as
+        while ($row = $result->fetch_assoc()) {
+            echo '<li id="'.$row["CompanyID"].'" role="option">'.$row["CompanyName"].'</li>';
+        }
+    }
+    $result->free_result(); // Free result set
 }
 ?>
 
@@ -71,33 +99,13 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
     </style>
 </head>
 <body>
-<script type="text/javascript" src="scripts/editable-combobox.js"></script>
-<script>
-        // // Função para lidar com o botão "Edit"
-        // function editCompany() {
-        //     var companyName = document.getElementById('company_select').value;
-        //     // Verificar se o nome da companhia está na lista
-        //     var datalistOptions = Array.from(document.getElementById('companies').options);
-        //     var isValidCompany = datalistOptions.some(option => option.value === companyName);
-
-        //     if (isValidCompany) {
-        //         // Redirecionar para a página de edição com o nome da companhia selecionada
-        //         window.location.href = 'company.html?name=' + encodeURIComponent(companyName);
-        //     } else {
-        //         alert('Please select a valid company from the list.');
-        //     }
-        // }
-
-        // // Função para lidar com o botão "Create"
-        // function createCompany() {
-
-        //     window.location.href = 'company.html';
-        // }
-
+    <script type="text/javascript" src="scripts/editable-combobox.js"></script>
+    <script>
         // Função para mostrar/ocultar botões baseado na seleção
-        function toggleButtons() {
+        function updateValue() {
             let combobox = document.getElementById("company_select");
             var companyName = combobox.value;
+            document.getElementById("companyName").value = companyName;
             console.log("@DEBUG: [textoCombo:" + companyName + "]");
             let optionList = document.getElementById('cb1-listbox').getElementsByTagName('LI');
             var editExistingCompany = false;
@@ -111,40 +119,75 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
             let button = document.getElementById("create-button");
             if (editExistingCompany) {
                 button.innerText = "Edit existing company";
-                button.style.background = "Green";
+                button.style.background = "green";
+                button.disabled = false;
             } else if ("" == companyName.trim()) {
                 button.innerText = "Select company / Create new company";
-                button.style.background = "Darkgray";
+                button.style.background = "grey";
+                button.disabled = true;
             } else {
                 button.innerText = "Create new company";
-                button.style.background = "Blue";
+                button.style.background = "blue";
+                button.disabled = false;
             }
+            return true;
         }
+
+        // var nodes = this.listboxNode.getElementsByTagName('LI');
+        // for (var i = 0; i < nodes.length; i++) {
+        //     var node = nodes[i];
+        //     this.allOptions.push(node);
     </script>
 
-    <form method="post">
+    <form method="post" onsubmit="javascript: return updateValue();">
+        <div class="border">
+            <div style="color: red"><?php echo $errorMsg ?></div>
+            <h2>Resetting Login</h2>
+            <input type="hidden" id="companyName" name="companyName">
+            <label for="company_select">Company name:</label>
+            <div class="combobox combobox-list">
+                <div class="group">
+                    <input id="company_select" class="cb_edit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb1-listbox" onkeyup="updateValue()" oninput="updateValue()">
+                    <button type="button" id="cb1-button" aria-label="Companies" aria-expanded="false" aria-controls="cb1-listbox" tabindex="-1" onkeyup="updateValue()" onclick="updateValue()">
+                    <svg width="18" height="16" aria-hidden="true" focusable="false" style="forced-color-adjust: auto">
+                        <polygon class="arrow" stroke-width="0" fill-opacity="0.75" fill="currentcolor" points="3,6 15,6 9,14"></polygon>
+                    </svg>
+                    </button>
+                </div>
+                <ul id="cb1-listbox" role="listbox" aria-label="Companies" onkeyup="updateValue()" onclick="updateValue()">
+                    <?php populateCompaniesCombo(); ?>
+                </ul>
+            </div>
+            <br><br>
+            <button id="create-button" type="submit" disabled="disabled" style="background:grey";>Select Company / Create New Company</button>
+        </div>
+    </form>
+
+    <!-- <form method="post" onsubmit="javascript: return updateValue();">
         <div class="border">
             <div style="color: red"><?php echo $errorMsg ?></div>
             <h2>Welcome, <?php echo $_SESSION['Name']; ?></h2>
             <h3>Please select the company you want to edit.</h3>
+            <input type="text" id="companyName">
+            <input type="text" id="companyName1" value="test">
             <label for="company_select">Company name:</label>
-            <div class="combobox combobox-list">
+            <!- <div class="combobox combobox-list">
                 <div class="group">
-                    <input id="company_select" class="cb_edit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb1-listbox" oninput="toggleButtons()">
-                    <button id="cb1-button" tabindex="-1" aria-label="Companies" aria-expanded="false" aria-controls="cb1-listbox">
+                    <input id="company_select" class="cb_edit" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb1-listbox" oninput="updateValue()">
+                    <button type="button" id="cb1-button" aria-label="Companies" aria-expanded="false" aria-controls="cb1-listbox" tabindex="-1">
                     <svg width="18" height="16" aria-hidden="true" focusable="false" style="forced-color-adjust: auto">
                         <polygon class="arrow" stroke-width="0" fill-opacity="0.75" fill="currentcolor" points="3,6 15,6 9,14"></polygon>
                     </svg>
                     </button>
                 </div>
                 <ul id="cb1-listbox" role="listbox" aria-label="Companies">
-                    <?php populateCompaniesCombo($loginID); ?>
+                    <?php populateCompaniesCombo(); ?>
                 </ul>
-            </div>
+            </div> --
             <br><br>
-            <button id="create-button" type="submit" style="background: Darkgray";>Select Company / Create New Company</button>
+            <button id="create-button" type="submit" style="background:grey";>Select Company / Create New Company</button>
         </div>
-    </form>
+    </form> -->
 
 </body>
 </html>

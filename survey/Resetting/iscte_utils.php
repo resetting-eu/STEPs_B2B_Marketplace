@@ -42,6 +42,46 @@ function iscte_debugAndExit ($msg) {
 }
 
 /**
+ * @brief Prints all $_SESSION fields on the current page.
+ */
+function iscte_debugSessionFields () {
+    iscte_debug("Start Printing _SESSION variables");
+    foreach($_SESSION as $key => $value)
+        iscte_debug("_SESSION key:$key; value:$value");
+    iscte_debug("End Printing _SESSION variables");
+}
+
+/**
+ * @brief Prints all $_POST fields on the current page.
+ */
+function iscte_debugPostFields () {
+    iscte_debug("Start Printing _POST variables");
+    foreach($_POST as $key => $value)
+        iscte_debug("_POST key:$key; value:$value");
+    iscte_debug("End Printing _POST variables");
+}
+
+/**
+ * @brief Prints all $_GET fields on the current page.
+ */
+function iscte_debugGetFields () {
+    iscte_debug("Start Printing _GET variables");
+    foreach($_GET as $key => $value)
+        iscte_debug("_GET key:$key; value:$value");
+    iscte_debug("End Printing _GET variables");
+}
+
+/**
+ * @brief Prints all $_SERVER fields on the current page.
+ */
+function iscte_debugServerFields () {
+    iscte_debug("Start Printing _SERVER variables");
+    foreach($_SERVER as $key => $value)
+        iscte_debug("_SERVER key:$key; value:$value");
+    iscte_debug("End Printing _SERVER variables");
+}
+
+/**
  * @brief Prints an error message in the Javascript Console (On Google Chrome, press F12 to see the console). Shows the file and line of code besides the message.
  * @param msg Text message to be printed
  */

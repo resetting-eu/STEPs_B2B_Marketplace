@@ -2,6 +2,7 @@
 include "iscte_utils.php";
 
 session_start();
+iscte_debugSessionFields();
 
 // Get the information from the HTML form's POST action
 iscte_debug("_SERVER[REQUEST_METHOD]:".$_SERVER["REQUEST_METHOD"]);
