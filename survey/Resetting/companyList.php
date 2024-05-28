@@ -74,33 +74,33 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
 
     /**
      * Do a first query: Get the companies (if any) with this CompanyName ==> dbResult. This tells us if:
-     *  - 1) The selected CompanyName is already exists on the database (OK?).
-     *  - 2) The selected CompanyName is new (OK).
+     * * 1) The selected CompanyName is already exists on the database (OK?).
+     * * 2) The selected CompanyName is new (OK).
      */
-    $dbSQL = "SELECT * FROM Company WHERE CompanyName = $companyName"; iscte_debug("dbSQL:$dbSQL");
+    $dbSQL = "SELECT * FROM Company WHERE CompanyName = \"$companyName\""; iscte_debug("dbSQL:$dbSQL");
     $dbResult = $mysqli->query($dbSQL);
     $mysqli->close(); // Close the connection to the database
 
     /**
      * Check database dbResults:
-     *  - If there is (at least) one row (it should be at most only one), this means we are on case 1) The selected CompanyName is already exists on the database.
-     *  - If there are no rows, this means we are on case 2) The selected CompanyName is new.
+     * * If there is (at least) one row (it should be at most only one), this means we are on case 1) The selected CompanyName is already exists on the database.
+     * * If there are no rows, this means we are on case 2) The selected CompanyName is new.
      */
     iscte_debug("dbResult->num_rows:$dbResult->num_rows");
     if ($dbResult->num_rows > 0) {
         /**
          * 1) The selected CompanyName is already exists on the database? This can happen if:
-         *  - 1.1) The user is editing HIS company (OK).
-         *  - 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
+         * * 1.1) The user is editing HIS company (OK).
+         * * 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
         $row = $dbResult->fetch_assoc();
-        $companyID = $_SESSION["CompanyID"] = $row["CompanyID"]; iscte_debug("companyID:$companyID");
         $dbResult->free_result(); // Free dbResult set
+        $companyID = $_SESSION["CompanyID"] = $row["CompanyID"]; iscte_debug("companyID:$companyID");
 
         /**
          * Do a second query: Get the CompanyLogin (if any) with this CompanyID AND with this LoginID ==> dbResult. This tells us if:
-         *  - If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
-         *  - If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
+         * * If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
+         * * If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
         $dbSQL = "SELECT * FROM CompanyLogin WHERE CompanyID = $companyID AND LoginID = $loginID"; iscte_debug("dbSQL:$dbSQL");
         $dbResult = $mysqli->query($dbSQL);
@@ -108,8 +108,8 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
 
         /**
          * Check database dbResults:
-         *  - If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
-         *  - If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
+         * * If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
+         * * If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
         iscte_debug("dbResult->num_rows:$dbResult->num_rows");
         if (1 == $dbResult->num_rows) {
@@ -129,15 +129,54 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
     } else {
         /**
          * 2) The selected CompanyName is new (OK). Do the following actions:
-         *  - 2.1) Create a new Company with this CompanyName.
-         *  - 2.2) Get the CompanyID of the new Company (fill in session).
-         *  - 2.3) Create a new CompanyLogin with the CompanyID and the LoginID.
-         *  - 2.4) Proceed to Edit the company with CompanyID.
+         * * 2.1) Create a new Company with this CompanyName.
+         * * 2.2) Get the CompanyID of the new Company (fill in session).
+         * * 2.3) Create a new CompanyLogin with the CompanyID and the LoginID.
+         * * 2.4) Proceed to Edit the company with CompanyID.
          */
         $dbResult->free_result(); // Free dbResult set
 
+        // 2.1) Create a new Company with this CompanyName.
+        $dbSQL = "INSERT INTO Company (CompanyName) VALUES (\"$companyName\")"; iscte_debug("dbSQL:$dbSQL");
+        iscte_debugAlert("0");
+        $dbResult = $mysqli->query($dbSQL);
+        iscte_debugAlert("1");
+        $mysqli->close(); // Close the connection to the database
+        iscte_debugAlert("2");
+        iscte_debug("dbResult:$dbResult");  // Check query result
+        iscte_debugAlert("3");
+        if ($dbResult === false) {
+            iscte_debugAlert("4");
+            iscte_error("Error creating Company. Please try again.");
+            $errorMsg = "Error creating Company. Please try again.";
+            exit();
+        }
 
+        // 2.2) Get the CompanyID of the new Company (fill in session).
+        $dbSQL = "SELECT CompanyID FROM Company WHERE CompanyName = \"$companyName\""; iscte_debug("dbSQL:$dbSQL");
+        $dbResult = $mysqli->query($dbSQL);
+        $mysqli->close(); // Close the connection to the database
+        iscte_debug("dbResult->num_rows:$dbResult->num_rows");
+        if (1 != $dbResult->num_rows) {
+            $dbResult->free_result(); // Free dbResult set
+            iscte_error("Error getting Company. Please try again.");
+            $errorMsg = "Error getting Company. Please try again.";
+            exit();
+        }
+        $row = $dbResult->fetch_assoc();
+        $dbResult->free_result(); // Free dbResult set
+        $companyID = $_SESSION["CompanyID"] = $row["CompanyID"]; iscte_debug("companyID:$companyID");
 
+        // 2.3) Create a new CompanyLogin with the CompanyID and the LoginID.
+        $dbSQL = "INSERT INTO CompanyLogin (CompanyID, LoginID) VALUES (\"$companyID\", \"$loginID\")"; iscte_debug("dbSQL:$dbSQL");
+        $dbResult = $mysqli->query($dbSQL);
+        $mysqli->close(); // Close the connection to the database
+        iscte_debug("dbResult:$dbResult");  // Check query result
+        if (!$dbResult) {
+            iscte_error("Error creating CompanyLogin. Please try again.");
+            $errorMsg = "Error creating CompanyLogin. Please try again.";
+            exit();
+        }
     }
     /**
      * 2.4) Proceed to Edit the company with CompanyID.
