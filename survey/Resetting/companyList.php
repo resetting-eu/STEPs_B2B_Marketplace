@@ -102,7 +102,7 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
          * * If there is (at least) one row (it should be at most only one), this means we are on case 1.1) The user is editing HIS company (OK).
          * * If there are no rows, this means we are on case 1.2) The user is inserting a NEW company with a name of a Company which already exists (NOK).
          */
-        $dbSQL = "SELECT * FROM CompanyLogin WHERE CompanyID = $companyID AND LoginID = $loginID"; iscte_debug("dbSQL:$dbSQL");
+        $dbSQL = "SELECT * FROM CompanyLogin WHERE CompanyID = \"$companyID\"' AND LoginID = \"$loginID\""; iscte_debug("dbSQL:$dbSQL");
         $dbResult = $mysqli->query($dbSQL);
         $mysqli->close(); // Close the connection to the database
 
@@ -117,6 +117,7 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
              * 1.1) The user is editing HIS company (OK): Proceed to Edit the company with CompanyID.
              */
             $dbResult->free_result(); // Free dbResult set
+
         } else {
             /**
              * 1.2) The user is inserting a NEW company with a name which already exists (NOK): State Error and return to the form.
@@ -181,8 +182,9 @@ if ("GET" == $_SERVER["REQUEST_METHOD"]) {
     /**
      * 2.4) Proceed to Edit the company with CompanyID.
      */
+    iscte_debugAlert("company.php");
     iscte_debugAndExit("Jumping to company.php");    // @DEBUG: If you need debug info BEFORE jumping to the next page, uncomment this statement
-    header("Location: company.php");
+    // header("Location: company.php");
     exit();
 }
 ?>

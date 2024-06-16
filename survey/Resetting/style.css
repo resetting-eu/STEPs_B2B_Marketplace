@@ -1,25 +1,26 @@
 body {
-    background: url(images/praia.jpg);
+    background: url(images/floresta.jpg);
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: sans-serif;
+    color: whitesmoke;
 }
 
 .border{
-    border: 1px solid #ccc;
-    padding: 30px;
-    margin: 0 auto;
+    padding: 30px; 
+    margin: 0 auto; 
     width: 500px;
-    max-width: 800px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px; 
+    background-color: transparent;
+    border-radius: 5px; 
+    backdrop-filter: blur(10px); 
+    border: 2px solid whitesmoke;
 }
 h1 {
     text-align: center;
-    color: #333;
+    color: whitesmoke;
 }
 
 label {
@@ -37,6 +38,7 @@ select {
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 14px;
+
 }
 
 
@@ -79,8 +81,7 @@ select {
 .progress-text {
     left: 8px;
     font-size: 14px;
-
-    color: #333;
+    color: white;
     white-space: nowrap;
 }
 
@@ -125,10 +126,10 @@ select {
 }
 #wasteGen3 {
     display: none;
-}
+}   
 
 button {
-    background-color: #007bff;
+    background-color: green;
     border: none;
     color: white;
     padding: 10px 15px;
@@ -141,100 +142,11 @@ button {
     border-radius: 5px;
 }
 button:hover {
-    background-color: #0056b3;
+    background-color: darkgreen;
 }
 
-/* Editable Combobox (from https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list) */
-.combobox-list {
-  position: relative;
-}
-.combobox .group {
-  display: inline-flex;
-  padding: 4px;
-  cursor: pointer;
-}
-.combobox input,
-.combobox button {
-  background-color: white;
-  color: black;
-  box-sizing: border-box;
-  height: 40px;
-  padding: 0;
-  margin: 0;
-  vertical-align: bottom;
-  border: 1px solid gray;
-  position: relative;
-  cursor: pointer;
-  border-radius: 2px;
-}
-.combobox input {
-  width: 300px;
-  border-right: none;
-  outline: none;
-  font-size: 100%;
-  padding: 1px 3px;
-}
-.combobox button {
-  width: 19px;
-  border-left: none;
-  outline: none;
-  color: rgb(0 90 156);
-}
-.combobox button[aria-expanded="true"] svg {
-  transform: rotate(180deg) translate(0, -3px);
-}
-ul[role="listbox"] {
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  left: 4px;
-  top: 45px;
-  list-style: none;
-  background-color: white;
-  display: none;
-  box-sizing: border-box;
-  border: 2px currentcolor solid;
-  max-height: 250px;
-  width: 318px;
-  overflow: scroll;
-  overflow-x: hidden;
-  font-size: 100%;
-  cursor: pointer;
-}
-ul[role="listbox"] li[role="option"] {
-  margin: 0;
-  display: block;
-  padding-left: 3px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-/* focus and hover styling */
-.combobox .group.focus,
-.combobox .group:hover {
-  border-color: #0067b8;
-  box-shadow: 0 0 4px 2px #0067b8;
-  outline: 5px solid transparent;
-  padding: 0px;
-  border: 2px solid currentcolor;
-  border-radius: 4px;
-}
-.combobox .group.focus polygon,
-.combobox .group:hover polygon {
-  fill-opacity: 1;
-}
-.combobox .group.focus input,
-.combobox .group.focus button,
-.combobox .group input:hover,
-.combobox .group button:hover {
-  background-color: #def;
-}
-[role="listbox"].focus [role="option"][aria-selected="true"],
-[role="listbox"] [role="option"]:hover {
-  background-color: #def;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-top: 2px solid currentcolor;
-  border-bottom: 2px solid currentcolor;
-}
+
+
+
+
+
