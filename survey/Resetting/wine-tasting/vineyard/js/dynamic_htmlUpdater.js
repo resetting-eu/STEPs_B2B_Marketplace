@@ -36,7 +36,8 @@ document.addEventListener('change', inputCheckbox_vineyard_Delegate((e) => {
 }));
 
 var textArea_vineyard_Delegate = vineyard_delegate('textarea');
-document.addEventListener('change', textArea_vineyard_Delegate((e) => {e.target.setAttribute('placeholder',e.target.value)}));//; formData_updater(e.target);}));
+document.addEventListener('change', textArea_vineyard_Delegate((e) => {e.target.innerHTML = e.target.value}));//; formData_updater(e.target);}));
+  // {e.target.setAttribute('placeholder',e.target.value)}));//; formData_updater(e.target);}));
 
 var select_vineyard_Delegate = vineyard_delegate('select');
 document.addEventListener('change', select_vineyard_Delegate((e) => {

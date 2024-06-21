@@ -112,7 +112,8 @@
                          // console.log('tex', tex)
                           var new_textarea_ID = tex.id.split('_').slice(0, -1).join('_') + "_" + String(i);
                           tex.id = new_textarea_ID;
-                tex.value = null;
+                // tex.value = null;
+                tex.placeholder = '';
                         }
                       }
     

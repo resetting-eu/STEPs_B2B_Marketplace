@@ -5,7 +5,7 @@
       
         var values;
       
-        var graph_width = 600;//600;
+        var graph_width = 500;//600;
         var graph_height = graph_width;
         var graph_radius = graph_width / 2;
       

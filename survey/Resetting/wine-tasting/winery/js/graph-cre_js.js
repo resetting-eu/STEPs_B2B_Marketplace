@@ -55,10 +55,20 @@
 
       graph_container['wine_' + wine_nr] = {form_data_nr: window[form_data_nr], node_nr: window[node_nr], edge_nr: window[edge_nr]};
 
+      var infwin = document.getElementsByClassName("gm-style-iw-c")[0].getBoundingClientRect();
+
+      var modalFooterHeight = document.getElementsByClassName("modal-footer")[0].getBoundingClientRect().height;
+      document.getElementById('myModal').style.width = infwin.width + 'px';
+      // document.getElementById('myModal').style.height = infwin.height + 'px';
+      // document.getElementsByClassName('modal-footer')[0].style.bottom = infwin.bottom;
+      // document.getElementById('myModalBody').style.height = infwin.height - modalFooterHeight + 'px';
+      // $('#myModalBody').style.height = 0.85 * infwin.height + 'px';
+      // $('#myModal').style.width = infwin.width + 'px';
+
      var svg = d3.select("#myModalBody").append("svg")
       .attr("id", "wine_" + node_nr.split('_')[1] + "Δsvg")
       .attr("style", "overflow: visible;")
-      .attr("width", width)
+      .attr("width", infwin.width - 1.5 * (((window.innerWidth * (1747 / 1920)) * 50) / 1858))
       .attr("height", 0.85 * height);
 
 
@@ -90,15 +100,21 @@
         .classed(thisGraph.consts.foreignObjectClass, true);
       var svgF = thisGraph.svgF
         .attr('id','wine_' + node_nr.split('_')[1] + 'Δwinery_formDiv_cont')
-        .attr('x', xLoc - 50)
-        .attr('y', yLoc + 290)
+        .attr('x', target_cont_x)
+        .attr('y', target_cont_y + target_cont_height)
         .attr('width', target_cont_width)
-        .attr('height', '44vh');
+        .attr('height', 0.85 * height - (5 * (((window.innerWidth * (1747 / 1920)) * 50) / 1858)));
 
       thisGraph.svgCG = svg.append("g")
         .classed(thisGraph.consts.containerClass, true);
         var target_cont = thisGraph.svgCG;
         target_cont.attr({"id": 'wine_' + node_nr.split('_')[1] + 'Δtarget_cont'})
+        .attr('x', target_cont_x )
+        .attr('y', target_cont_y)
+        .attr('width', target_cont_width)
+        .attr('height', target_cont_height)
+        .attr('stroke', 'black')
+        .attr('fill', '#fff');
 
       target_cont.append('rect')
         .attr('id', 'wine_' + node_nr.split('_')[1] + 'Δtarget_cont_rect')    
@@ -138,9 +154,9 @@
       var svgG = thisGraph.svgG
         .attr({"id": 'wine_' + node_nr.split('_')[1] + 'Δgraph'})
         .attr('x', target_cont_x )
-        .attr('y', target_cont_y - 110)
+        .attr('y', target_cont_y - (2 * (((window.innerWidth * (1747 / 1920)) * 50) / 1858)) + 10)//110)
         .attr('width', target_cont_width)
-        .attr('height', target_cont_height - 120);
+        .attr('height', target_cont_height - (2 * (((window.innerWidth * (1747 / 1920)) * 50) / 1858)) + 20);// 120);
 
       // displayed when dragging between nodes
       thisGraph.dragLine = target_cont.append('path')
@@ -272,7 +288,7 @@
       BACKSPACE_KEY: 8,
       DELETE_KEY: 46,
       ENTER_KEY: 13,
-      nodeRadius: 50
+      nodeRadius: ((window.innerWidth * (1747 / 1920)) * 50) / 1858//50
     };
 
     /* PROTOTYPE FUNCTIONS */
@@ -580,19 +596,22 @@
         return d.id;
       });
       thisGraph.circles.attr("transform", function(d) {
-
+console.log('d.x:', d.x, 'd.y:', d.y)
+console.log('Array.from(thisGraph.svgCG[0])[0]', Array.from(thisGraph.svgCG[0])[0])
+// debugger;
         var svg_cont_bbox = Array.from(thisGraph.svg[0])[0].getBoundingClientRect();//document.getElementById('wine_' + node_nr.split('_')[1] + 'Δsvg').getBoundingClientRect()
-        if (d.x > svg_cont_bbox.left && d.x < svg_cont_bbox.right && d.y > svg_cont_bbox.top && d.y < svg_cont_bbox.bottom){
+        var target_cont_bbox = Array.from(Array.from(thisGraph.svgCG[0]))[0].getBoundingClientRect();
+        var circle_bbox = this.getBoundingClientRect();
+
+        if (circle_bbox.left > svg_cont_bbox.left && circle_bbox.right < svg_cont_bbox.right && circle_bbox.top > svg_cont_bbox.top && circle_bbox.bottom < svg_cont_bbox.bottom){
 
         return "translate(" + d.x + "," + d.y + ")";
         } else {
 
-        var circle_bbox = this.getBoundingClientRect();
-
-        if (d.x < svg_cont_bbox.left) { d.x = svg_cont_bbox.left; }
-          else if (d.x > svg_cont_bbox.right  + circle_bbox.width / 2) { d.x = svg_cont_bbox.right  + circle_bbox.width / 2; }
+        if (circle_bbox.left  < target_cont_bbox.left) { d.x = target_cont_bbox.left; }
+          else if (circle_bbox.right > target_cont_bbox.right  + circle_bbox.width / 2) { d.x = target_cont_bbox.right  - 2 * circle_bbox.width; }
           if (d.y < svg_cont_bbox.top - circle_bbox.height / 2) { d.y = svg_cont_bbox.top - circle_bbox.height / 2; }
-          else if (d.y > svg_cont_bbox.bottom + circle_bbox.height / 2) { d.y = svg_cont_bbox.bottom + circle_bbox.height / 2; }
+          else if (circle_bbox.bottom > target_cont_bbox.bottom) { d.y = target_cont_bbox.bottom - circle_bbox.height / 2; }
 
         return "translate(" + d.x + "," + d.y + ")";
         }
@@ -610,9 +629,21 @@
         .attr("transform", function(d) {
           var circle_bbox = this.getBoundingClientRect();
 
-          var target_cont_bbox = Array.from(thisGraph.svgG[0])[0].firstChild.getBoundingClientRect();
+          // var target_cont_bbox = Array.from(thisGraph.svgG[0])[0].firstChild.getBoundingClientRect();
           
-          if (d.x - (circle_bbox.width / 5.55) > target_cont_x && d.x + (circle_bbox.width * 0.78) < (target_cont_x  + target_cont_width) && d.y + (circle_bbox.height / 3.3) > target_cont_y && d.y + (circle_bbox.height * 1.25) < (target_cont_y + target_cont_height)) {
+          // if (d.x - (circle_bbox.width / 5.55) > target_cont_x && d.x + (circle_bbox.width * 0.78) < (target_cont_x  + target_cont_width) && d.y + (circle_bbox.height / 3.3) > target_cont_y && d.y + (circle_bbox.height * 1.25) < (target_cont_y + target_cont_height)) {
+
+
+          // var circle_bbox = this.children[0].getBoundingClientRect();
+          // .getBoundingClientRect();
+          var target_cont_bbox = Array.from(Array.from(thisGraph.svgCG[0]))[0].firstChild.getBoundingClientRect(); // "x", "y", "width", "height", "top", "right", "bottom","left"
+// alert("circle_bbox: " + circle_bbox.width + " " + circle_bbox.height + " " + circle_bbox.top + " " + circle_bbox.right + " " + circle_bbox.bottom + " " + circle_bbox.left + "\n" + d.x + " " + d.y + "\n" + target_cont_bbox.left + " " + target_cont_bbox.right + " " + target_cont_bbox.top + " " + target_cont_bbox.bottom + " " + target_cont_bbox.width + " " + target_cont_bbox.height);
+// console.log('circle_bbox.left:', circle_bbox.left, 'circle_bbox.right:', circle_bbox.right, 'circle_bbox.top:', circle_bbox.top, 'circle_bbox.bottom:', circle_bbox.bottom)
+// console.log('target_cont_bbox.left:', target_cont_bbox.left, 'target_cont_bbox.right:', target_cont_bbox.right, 'target_cont_bbox.top:', target_cont_bbox.top, 'target_cont_bbox.bottom:', target_cont_bbox.bottom)
+// console.log('circle_bbox.left > target_cont_bbox.left:', circle_bbox.left > target_cont_bbox.left, 'circle_bbox.right < target_cont_bbox.right:', circle_bbox.right < target_cont_bbox.right, 'circle_bbox.top > target_cont_bbox.top:', circle_bbox.top > target_cont_bbox.top, 'circle_bbox.bottom < target_cont_bbox.bottom:', circle_bbox.bottom < target_cont_bbox.bottom)
+
+          // if (d.x - (circle_bbox.width / 5.55) > target_cont_bbox.left && d.x + (circle_bbox.width * 0.78) < target_cont_bbox.right && d.y + (circle_bbox.height / 3.3) > target_cont_bbox.top && d.y + (circle_bbox.height * 1.25) < target_cont_bbox.bottom)
+          if (circle_bbox.left > target_cont_bbox.left && circle_bbox.right < target_cont_bbox.right && circle_bbox.top > target_cont_bbox.top && circle_bbox.bottom < target_cont_bbox.bottom) {
             Array.from(thisGraph.svgG[0])[0].getElementsByTagName('g')[1].appendChild(this);
             }
             return "translate(" + d.x + "," + d.y + ")";
@@ -636,11 +667,16 @@
         .on("mouseup", function(d) {
          // console.log(d.x, d.y)
           
-          var circle_bbox = this.getBoundingClientRect();
-
+          var circle_bbox = this.children[0].getBoundingClientRect();
+          // .getBoundingClientRect();
           var target_cont_bbox = Array.from(Array.from(thisGraph.svgCG[0]))[0].firstChild.getBoundingClientRect(); // "x", "y", "width", "height", "top", "right", "bottom","left"
+// alert("circle_bbox: " + circle_bbox.width + " " + circle_bbox.height + " " + circle_bbox.top + " " + circle_bbox.right + " " + circle_bbox.bottom + " " + circle_bbox.left + "\n" + d.x + " " + d.y + "\n" + target_cont_bbox.left + " " + target_cont_bbox.right + " " + target_cont_bbox.top + " " + target_cont_bbox.bottom + " " + target_cont_bbox.width + " " + target_cont_bbox.height);
+// console.log('circle_bbox.left:', circle_bbox.left, 'circle_bbox.right:', circle_bbox.right, 'circle_bbox.top:', circle_bbox.top, 'circle_bbox.bottom:', circle_bbox.bottom)
+// console.log('target_cont_bbox.left:', target_cont_bbox.left, 'target_cont_bbox.right:', target_cont_bbox.right, 'target_cont_bbox.top:', target_cont_bbox.top, 'target_cont_bbox.bottom:', target_cont_bbox.bottom)
+// console.log('circle_bbox.left > target_cont_bbox.left:', circle_bbox.left > target_cont_bbox.left, 'circle_bbox.right < target_cont_bbox.right:', circle_bbox.right < target_cont_bbox.right, 'circle_bbox.top > target_cont_bbox.top:', circle_bbox.top > target_cont_bbox.top, 'circle_bbox.bottom < target_cont_bbox.bottom:', circle_bbox.bottom < target_cont_bbox.bottom)
 
-          if (d.x - (circle_bbox.width / 5.55) > target_cont_bbox.left && d.x + (circle_bbox.width * 0.78) < target_cont_bbox.right && d.y + (circle_bbox.height / 3.3) > target_cont_bbox.top && d.y + (circle_bbox.height * 1.25) < target_cont_bbox.bottom) {
+          // if (d.x - (circle_bbox.width / 5.55) > target_cont_bbox.left && d.x + (circle_bbox.width * 0.78) < target_cont_bbox.right && d.y + (circle_bbox.height / 3.3) > target_cont_bbox.top && d.y + (circle_bbox.height * 1.25) < target_cont_bbox.bottom)
+          if (circle_bbox.left > target_cont_bbox.left && circle_bbox.right < target_cont_bbox.right && circle_bbox.top > target_cont_bbox.top && circle_bbox.bottom < target_cont_bbox.bottom) {
             Array.from(Array.from(thisGraph.svgCG[0]))[0].getElementsByTagName('g')[1].append(this);
             thisGraph.circleMouseUp.call(thisGraph, d3.select(this), d);
 
@@ -691,7 +727,7 @@
                     }
                   }
 
-          } else {
+          } else if (circle_bbox.left < target_cont_bbox.left || circle_bbox.right > target_cont_bbox.right || circle_bbox.top < target_cont_bbox.top || circle_bbox.bottom > target_cont_bbox.bottom) {
             var splitID = d.id.split('_');
             if (document.getElementById('wine_' + splitID[splitID.length - 1] + 'Δ' + splitID.slice(0, splitID.length - 2).join('_'))) {
               var text = "You will loose any information entered for this process!!!\nPlease click 'OK' if you want to remove this process.\nIf you don't want to remove this process, please click 'Cancel'.";
@@ -762,7 +798,10 @@
                     }
                   }
                 }
-          }
+          } 
+          
+
+        
         }).call(thisGraph.drag);
 
       newGs.append("circle")
@@ -772,10 +811,51 @@
         thisGraph.insertTitleLinebreaks(d3.select(this), d.title);
       });
 
+// Attach the mouseup event listener to the window
+window.addEventListener('mouseup', function(event) {
+  var targetContBBox = Array.from(Array.from(thisGraph.svgCG[0]))[0].firstChild.getBoundingClientRect();
+            
+  // get the svg graph
+  var svgName = thisGraph.svgG[0][0]
+  // get all the circle elements in the graph
+  var nodes_element = svgName.getElementsByClassName('conceptG');
+  // loop all the circles positions
+  for (const node of nodes_element) {
+    // console.log(node.firstChild.getBoundingClientRect())
+    // debugger;
+    var nodeBBox = node.firstChild.getBoundingClientRect();
+    // for all circles not in the target container set them to the original position
+    if (nodeBBox.left < targetContBBox.left || nodeBBox.right > targetContBBox.right || nodeBBox.top < targetContBBox.top || nodeBBox.bottom > targetContBBox.bottom) {
 
+
+      // get the node inner text
+      var text = node.children[1].firstChild.innerHTML;
+      // find the node in the nodes list using the text
+      // var node = thisGraph.nodes.find(node => node.title === text);
+// console.log('text parent:', node.children[1].firstChild)
+//       console.log('text:', text)
+//       console.log('nodes_0:', nodes_0)
+      // debugger;
+      // get the original position of the node
+      var node_or = nodes_0.find(node => node.title.includes(text));
+// console.log('node_or:', node_or)
+// debugger;
+
+      d3.select(document.getElementById(node.id)).attr( "transform", "translate(" + node_or.x + "," + node_or.y +")");
+
+   
+      // get the element in the node list where the title includes the text
+      var currentnode = thisGraph.nodes.find(node => node.title.includes(text));
+      // update the x and y values of the node
+      currentnode.x = node_or.x;
+      currentnode.y = node_or.y;
+    }
+      
+  }
+});
       newGs.append('svg:path')
         .attr('d', 'M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z')
-        .attr("transform", "translate(30,-60) scale(0.06)")
+        .attr("transform", `translate(${(30/50) * (((window.innerWidth * (1747 / 1920)) * 50) / 1858)}, ${- (60/50) * (((window.innerWidth * (1747 / 1920)) * 50) / 1858)}) scale(${0.06 * (((window.innerWidth * (1747 / 1920)) * 50) / 1858) / 50})`)//"translate(30,-60) scale(0.06)")
         .attr('fill', '#0a54e9')
         .attr('style', 'visibility: hidden');
       // remove old nodes

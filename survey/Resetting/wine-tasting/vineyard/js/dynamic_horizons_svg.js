@@ -145,7 +145,7 @@
             if (tabcontent[i].id.includes(answerName)) {
 // alert(`"tabcontent[i].id: "  ${tabcontent[i].id}\n"answerName: "  ${answerName}\n"tabcontent[i].id.includes(answerName): "  ${tabcontent[i].id.includes(answerName)}`);
                     // get the element with the id that includes 'answerName' and set it to display
-                    tabcontent[i].style = "display: inline-flex; justify-content: space-evenly;"
+                    tabcontent[i].style = "display: inline-flex; justify-content: space-evenly; overflow: visible;"
                 } else {
                     // get the element with the id that includes 'answerName' and set it to display
                     tabcontent[i].style.display = "none";
