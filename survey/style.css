@@ -9,13 +9,13 @@ body {
 }
 
 .border{
-    padding: 30px; 
-    margin: 0 auto; 
+    padding: 30px;
+    margin: 0 auto;
     width: 500px;
-    max-width: 800px; 
+    max-width: 800px;
     background-color: transparent;
-    border-radius: 5px; 
-    backdrop-filter: blur(10px); 
+    border-radius: 5px;
+    backdrop-filter: blur(10px);
     border: 2px solid whitesmoke;
 }
 h1 {
@@ -126,7 +126,7 @@ select {
 }
 #wasteGen3 {
     display: none;
-}   
+}
 
 button {
     background-color: green;
@@ -145,8 +145,6 @@ button:hover {
     background-color: darkgreen;
 }
 
-
-
-
-
-
+error {
+    color: red;
+}
